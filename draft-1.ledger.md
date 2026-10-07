@@ -105,6 +105,7 @@ Target: `draft-1.md`, whole file.
 - C23: bad: "## 9. SSL on 30 images", "## 10. Planned experiments". fix: a heading names the content the chapter holds, and a test setup is never a chapter title; chapter 10 says where each result goes.
   pattern: SSL on 30 images
 - C24: figures come from the cited papers and from the PPS paper as well as from own runs; every caption ends with its source ("From X et al. (year)." or "From the PPS paper, Figure N.").
+- C25 (repeats C15, user: "в начале каждой новой мысли должен быть ПЕРЕХОД"): bad: "## 9. Information inside and between small samples / A small sample carries information in two places." fix: the first sentence of every chapter, section, paragraph and table lead-in names how it follows from the text just before it (what the previous part left open, which object it moves to, or why the case changes). A heading followed directly by a table or by another heading gets a lead sentence. Check by reading the last sentence before each joint and the first after it, for the whole draft.
 
 ## Section map from the previous structure
 
