@@ -52,7 +52,7 @@ Target: `draft-1.md`, whole file.
 - U5: "оси нефиксированности": used as "axes" of the moving target in §4.6, in English.
 - U6: "нулевого порядка — это к чему вообще относится?": answered in place, "a zero-order model of contrastive learning at the level of the embedding law" (§4.2) and the order paragraph of §1.2.
 - U7: goal of the work: "чётко определяет, где в какой теории есть конкретные условности и предположения и как они на одной карте друг с другом соотносятся ... проверить на практике, что из этого сходится, что нет, и предложить несколько своих методов, которые закрывают многие из этих вещей наиболее общим способом". Used in the last paragraph of §0.
-- U8: "вместо доказательств писать выводы. То есть именно каким образом мы к этому приходим, вместо того, чтобы писать, как это доказывается". Used in chapter 2: the step that leads to each proposition is in the text, the proofs are in Appendix A.1. Other chapters still carry inline proofs.
+- U8: "вместо доказательств писать выводы. То есть именно каким образом мы к этому приходим, вместо того, чтобы писать, как это доказывается". Used in chapters 2-8: the step that leads to each proposition is in the text, the proofs are in Appendix A.1-A.6 (A.1 chapter 2, A.2 chapter 3, A.3 chapter 4, A.4 chapter 5, A.5 chapter 6, A.6 chapter 8).
 - U9: chapter 9 "должен быть типа всякие варианты и информация внутри небольших сэмплов данных"; "SSL on 30 images" was a test setup and stays only as the running test case. Used in the chapter 9 title and structure.
 
 ## Corrections
@@ -106,12 +106,20 @@ Target: `draft-1.md`, whole file.
   pattern: SSL on 30 images
 - C24: figures come from the cited papers and from the PPS paper as well as from own runs; every caption ends with its source ("From X et al. (year)." or "From the PPS paper, Figure N.").
 - C25 (repeats C15, user: "в начале каждой новой мысли должен быть ПЕРЕХОД"): bad: "## 9. Information inside and between small samples / A small sample carries information in two places." fix: the first sentence of every chapter, section, paragraph and table lead-in names how it follows from the text just before it (what the previous part left open, which object it moves to, or why the case changes). A heading followed directly by a table or by another heading gets a lead sentence. Check by reading the last sentence before each joint and the first after it, for the whole draft.
+- C26 (user: "это нейрослоп"): bad: "With only a few dozen unlabeled images, the information has to come from the images themselves, and a small sample carries it in two places." fix: ", and" never glues a second independent claim onto the first as a fake connective. End the sentence; the next one says how it follows. ", and" stays for lists and for two actions of one subject. The checker flags it as `and-chain?`; every flag is either rewritten or a list.
+- C27 (user: "указание кол-ва мест/объектов перед тем как о них рассказать"): bad: "in two places", "Three kinds recur.", "four facts from chapters 2-7 bound", "a distortion can enter the loss in two ways", "Three directions are open." fix: name the first item and why it comes up, then the next; no count announced before the items.
+  pattern: \b(two|three|four|five|six|several) (\w+ )?(places|ways|kinds|facts|directions|families|questions|steps|routes|lessons)\b
+- C28 (user: "у всего должна быть причина, ПЕРЕД самим текстом"; "Причём здесь нижние слои? Ты как-то вводишь вообще это понятие?"): bad: "Asano, Rupprecht and Vedaldi match the first layers of a network trained on a million images" with layers never introduced. fix: every concept is introduced with what it is and why the argument needs it before it is used, and every claim or proposition is preceded by the reason it comes up and the step that leads to it. Proofs go to Appendix A, the derivation chain stays in the text (extends U8 to chapters 3-8).
+- C29 (user: "вопрос был вообще само искажение должно быть инвариантным или нет? ... либо случайный шум добавляем, либо конкретно там какой-то поворот на какой-то градус"): bad: 9.3 asked whether the representation should be invariant to a distortion. fix: 9.3 contrasts a random distortion whose parameter nobody tracks (noise, random crop) with a specific transformation whose parameter is known (rotation by 90°), and says what each lets the loss ask for.
+- C30 (user: "а всем изображениям добавь подписи"): every figure has a visible caption line under the image; the alt text alone may not render.
 
 ## Section map from the previous structure
 
 Old 2.1 → 2.2 and 5.2; 2.2 → 4.2; 2.3.1 → 3.5; 2.3.2 → 3.2; 2.3.3-2.3.4 → 5.2; 2.3.5 → 6.2; 2.3.7 → 4.2; 2.3.8 → 6.5; 2.4 → 4.3; 2.5 → 3.1, 3.7, 4.1; 2.6 → 4.5, 5.2; 3.1 → 2.3, 2.4, 5.3, 5.4; 3.2 → 6.3; 3.3 → 2.5; 3.4 → 7; 4.1 → 2.3; 4.2 → 5.1; 4.3-4.4 → 2.3, 2.5; 4.5-4.6 → 6.4; 4.7 (author's "Where a method intervenes") → 5.5, its Prop. 4.6 → Prop. 5.3; 5 → 6; 6.1-6.4 → 4.5, 4.6; 6.5 → 3.8; 6.6 → 2.6; 7 → 8; 8 → 9; 9.1 → 7; 9.2-9.7 → 10.1-10.7.
 
 Old proposition numbers used outside the draft: 3.4 (multiset invariance) → 2.11, 6.2 (A-GEM) → 8.2. `experiments/randbit/README.md` cites the new numbers.
+
+Renamed headings (draft of 2026-10-08): 2.5 "Shared properties: ..." (was "Three shared properties: ..."); 4.2 "Wang and Isola: the minimizer of the limit loss and what the limit misses"; 5.1 "Waves of methods and their families"; 5.4 "Siamese and distillation methods: competing explanations of why they do not collapse"; 5.5 "Places in the pipeline where a method intervenes"; 7.5 "RandBit and the hard conditions: few samples, structure between samples, an unclear goal"; 8.5 "Research directions and the quantities to measure". Chapter 9 order: 9.1 distortion, 9.2 inside and between samples, 9.3 random distortion against a specific transformation, 9.4 thirty images.
 
 Chapter 4 renumbering after the new theory papers (commit 454901b → next): 4.7 Zimmermann → 4.9; 4.8 Locatello → 4.10; 4.9 gradient-optimal width → 4.11; 4.10 mean-field → 4.12; 4.11 Silverman → 4.13; 4.12 Hyvärinen → 4.14; 4.13 Vincent → 4.15; Conjecture 4.14 → 4.18. New: 4.7 two-view operator (Luthra 2026), 4.8 NSCL (Luthra 2025), 4.16 first variation of uniformity, 4.17 Gretton et al.
 
@@ -127,7 +135,7 @@ Chapter 4 renumbering after the new theory papers (commit 454901b → next): 4.7
 - Notation: gap $g=q-p$; the predictor has no symbol, $\mathrm{pred}(z)$; generator $\gamma$ with $x=\gamma(c)$; easy feature $a$, useful feature $t$; Saunshi's gap $\delta$; CDNV $\nu$, directional $\tilde\nu$; data density $P$, model $Q$ (score matching, Gretton); noise $\xi$, step $\varepsilon$; linear map $M$ in Prop 5.3; task matrix $\Gamma$ with projection $\Pi=\Gamma\Gamma^+$; A-GEM gradients $u$ (task), $v$ (SSL); predictor $\hat y$ in Prop 6.4.
 - RandBit counts ($N=256$, $D=128$, $K=510$): whitening needs $2^b-1\ge128$, so $b=8$; instance discrimination needs $2^b\ge N$, so $b=8$; $K2^{-b}\approx2$ at $b=8$; VICReg's invariance and variance terms (weights 25, 25) hold with 16 codes. SIGReg below the untrained encoder at $b=6$ is left as a highlighted open point.
 
-- Figures 2-19 in order of appearance: 2 VICReg comparison, 3 BYOL, 4 Jing collapse, 5 Robinson shortcut, 6 PPS gradient-optimal, 7 Wang-Isola CIFAR-10 on $S^1$, 8 HaoChen graph, 9 PPS principle and circle check, 10 PPS temperature, 11 atlas, 12 InfoMin, 13 I-JEPA architectures, 14-15 RandBit, 16 ZSSR, 17 Asano single images, 18 MAE, 19 jigsaw. Paper figures live in `figures/papers/`, converted from the arXiv sources; the PPS ones from `Bandwidth Research/Research/paper/submissions/icomp-2026/figures/`.
+- Figures 2-19 in order of appearance: 2 VICReg comparison, 3 BYOL, 4 Jing collapse, 5 Robinson shortcut, 6 PPS gradient-optimal, 7 Wang-Isola CIFAR-10 on $S^1$, 8 HaoChen graph, 9 PPS principle and circle check, 10 PPS temperature, 11 atlas, 12 InfoMin, 13 I-JEPA architectures, 14-15 RandBit, 16 MAE, 17 jigsaw, 18 ZSSR, 19 Asano single images. Each figure has a visible bold caption line under the image; the alt text is only "Figure N". Paper figures live in `figures/papers/`, converted from the arXiv sources; the PPS ones from `Bandwidth Research/Research/paper/submissions/icomp-2026/figures/`.
 
 ## Next steps for the author
 
@@ -135,5 +143,6 @@ Chapter 4 renumbering after the new theory papers (commit 454901b → next): 4.7
 - RandBit: three seeds near the thresholds, BYOL as the siamese row, guidance at the threshold, reconstruction control, sample-size knob, dimension and batch knobs for the counts of 7.2; MCL and adversarial views as the first remedies to try.
 - Read in full the abstract-level papers of 8.1 before removing their highlight.
 - Check whether task directions of trained encoders are nearly orthogonal (8.3), which decides whether $\Gamma$ composes as a sum.
-- Move the proofs of chapters 3-8 to Appendix A in the same way as chapter 2, once chapter 2 reads well.
+- Verify the Tirer et al. reference, still highlighted.
+- The remaining `and-chain?` flags are lists, propositions with several assumptions and captions; the remaining `count-announce` flags refer back to the three families of chapter 0.
 - Prove or drop Conjecture 4.18 with the anchor-drift experiment of 10.3.
