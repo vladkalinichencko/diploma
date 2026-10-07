@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1110" height="630" viewBox="0 0 1110 630">
+<defs><marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#333"/></marker></defs>
+<rect width="1110" height="630" fill="#ffffff"/>
+<rect x="610" y="50" width="450" height="80" rx="10" fill="#f3f3f3" stroke="#666666" stroke-width="1.5"/>
+<text x="614" y="43" font-family="Helvetica, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="bold" fill="#666666">Control</text>
+<rect x="625" y="63" width="420" height="54" rx="6" fill="#ffffff" stroke="#666666" stroke-width="1.2"/>
+<text x="835.0" y="86.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#222">temperature τ(Z), kernel width σ</text>
+<text x="835.0" y="101.5" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#222">adaptive schedules: τ computed from the batch</text>
+<rect x="20" y="160" width="180" height="240" rx="10" fill="#f6efe0" stroke="#b08a3e" stroke-width="1.5"/>
+<text x="24" y="153" font-family="Helvetica, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="bold" fill="#b08a3e">Data</text>
+<rect x="35" y="178" width="150" height="46" rx="6" fill="#ffffff" stroke="#b08a3e" stroke-width="1.2"/>
+<text x="110.0" y="197.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#222">data law P<tspan baseline-shift="sub" font-size="75%">X</tspan></text>
+<text x="110.0" y="212.5" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#222">inputs x</text>
+<rect x="35" y="244" width="150" height="140" rx="6" fill="#ffffff" stroke="#b08a3e" stroke-width="1.2"/>
+<text x="110.0" y="288.0" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#222">relation G</text>
+<text x="110.0" y="303.0" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#222">augmentations T</text>
+<text x="110.0" y="318.0" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#222">graph W, Ā</text>
+<text x="110.0" y="333.0" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#222">two-view operator 𝒯</text>
+<text x="110.0" y="348.0" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#222">positive pairs (x, x⁺)</text>
+<polyline points="110,224 110,242" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#head)"/>
+<rect x="225" y="160" width="360" height="240" rx="10" fill="#e6eef8" stroke="#3d6ea8" stroke-width="1.5"/>
+<text x="229" y="153" font-family="Helvetica, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="bold" fill="#3d6ea8">Network</text>
+<text x="240" y="196" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="start" font-weight="bold" fill="#3d6ea8">parameters θ</text>
+<polyline points="240,212 240,206 490,206 490,212" fill="none" stroke="#3d6ea8" stroke-width="1.4"/>
+<rect x="240" y="225" width="80" height="50" rx="6" fill="#ffffff" stroke="#3d6ea8" stroke-width="1.2"/>
+<text x="280.0" y="246.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#222">encoder</text>
+<text x="280.0" y="261.5" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#222">f<tspan baseline-shift="sub" font-size="75%">θ</tspan></text>
+<rect x="335" y="225" width="60" height="50" rx="6" fill="#ffffff" stroke="#3d6ea8" stroke-width="1.2"/>
+<text x="365.0" y="246.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#222">h</text>
+<text x="365.0" y="261.5" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#222">repr.</text>
+<rect x="410" y="225" width="80" height="50" rx="6" fill="#ffffff" stroke="#3d6ea8" stroke-width="1.2"/>
+<text x="450.0" y="246.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#222">projector</text>
+<text x="450.0" y="261.5" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#222">g<tspan baseline-shift="sub" font-size="75%">θ</tspan></text>
+<rect x="505" y="225" width="64" height="50" rx="6" fill="#ffffff" stroke="#3d6ea8" stroke-width="1.2"/>
+<text x="537.0" y="246.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#222">z</text>
+<text x="537.0" y="261.5" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#222">embed.</text>
+<polyline points="320,250 333,250" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#head)"/>
+<polyline points="395,250 408,250" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#head)"/>
+<polyline points="490,250 503,250" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#head)"/>
+<rect x="420" y="325" width="155" height="54" rx="6" fill="#ffffff" stroke="#3d6ea8" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="497.5" y="348.6666666666667" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="bold" fill="#222">target branch θ̄</text>
+<text x="497.5" y="362.6666666666667" font-family="Helvetica, Arial, sans-serif" font-size="10" text-anchor="middle" font-weight="normal" fill="#222">EMA of θ, stop-gradient</text>
+<polyline points="450,275 450,323" fill="none" stroke="#333" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#head)"/>
+<text x="456" y="304" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="start" font-weight="normal" fill="#333" font-style="italic">EMA</text>
+<polyline points="185,300 238,262" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#head)"/>
+<text x="214" y="297" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#333" font-style="italic">x, x⁺</text>
+<rect x="610" y="160" width="210" height="240" rx="10" fill="#e7f3ea" stroke="#3f8a55" stroke-width="1.5"/>
+<text x="614" y="153" font-family="Helvetica, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="bold" fill="#3f8a55">Sample</text>
+<rect x="620" y="172" width="190" height="218" rx="6" fill="#f4faf5" stroke="#3f8a55" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="630" y="366" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="start" font-weight="bold" fill="#3f8a55">embedding law p<tspan baseline-shift="sub" font-size="75%">z</tspan></text>
+<text x="630" y="382" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="start" font-weight="normal" fill="#3f8a55">limit N, K → ∞</text>
+<rect x="635" y="186" width="160" height="150" rx="6" fill="#ffffff" stroke="#3f8a55" stroke-width="1.2"/>
+<text x="715" y="204" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#222">batch Z, N × D</text>
+<rect x="645" y="214" width="140" height="52" rx="6" fill="#ffffff" stroke="#3f8a55" stroke-width="1.2"/>
+<text x="715.0" y="236.66666666666666" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="bold" fill="#222">Gram ZZ<tspan baseline-shift="super" font-size="75%">T</tspan>, N × N</text>
+<text x="715.0" y="250.66666666666666" font-family="Helvetica, Arial, sans-serif" font-size="10" text-anchor="middle" font-weight="normal" fill="#222">between samples</text>
+<rect x="645" y="274" width="140" height="52" rx="6" fill="#ffffff" stroke="#3f8a55" stroke-width="1.2"/>
+<text x="715.0" y="296.6666666666667" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="bold" fill="#222">covariance Z<tspan baseline-shift="super" font-size="75%">T</tspan>Z, D × D</text>
+<text x="715.0" y="310.6666666666667" font-family="Helvetica, Arial, sans-serif" font-size="10" text-anchor="middle" font-weight="normal" fill="#222">between dimensions</text>
+<polyline points="569,240 633,240" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#head)"/>
+<text x="601" y="233" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#333" font-style="italic">rows of Z</text>
+<polyline points="575,352 633,320" fill="none" stroke="#333" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#head)"/>
+<text x="497" y="394" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#333" font-style="italic">z⁺ with no gradient</text>
+<rect x="845" y="160" width="215" height="240" rx="10" fill="#fbebe0" stroke="#c0662b" stroke-width="1.5"/>
+<text x="849" y="153" font-family="Helvetica, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="bold" fill="#c0662b">Objective</text>
+<text x="860" y="186" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="start" font-weight="bold" fill="#222">loss L(Z), L[p<tspan baseline-shift="sub" font-size="75%">z</tspan>]</text>
+<rect x="860" y="198" width="185" height="54" rx="6" fill="#ffffff" stroke="#c0662b" stroke-width="1.2"/>
+<text x="952.5" y="221.66666666666666" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="bold" fill="#222">order 0</text>
+<text x="952.5" y="235.66666666666666" font-family="Helvetica, Arial, sans-serif" font-size="10" text-anchor="middle" font-weight="normal" fill="#222">value, minimizers</text>
+<rect x="860" y="262" width="185" height="54" rx="6" fill="#ffffff" stroke="#c0662b" stroke-width="1.2"/>
+<text x="952.5" y="285.6666666666667" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="bold" fill="#222">order 1</text>
+<text x="952.5" y="299.6666666666667" font-family="Helvetica, Arial, sans-serif" font-size="10" text-anchor="middle" font-weight="normal" fill="#222">drift −∇<tspan baseline-shift="sub" font-size="75%">z</tspan>L, V = μ⁺ − μ⁻</text>
+<rect x="860" y="326" width="185" height="54" rx="6" fill="#ffffff" stroke="#c0662b" stroke-width="1.2"/>
+<text x="952.5" y="349.6666666666667" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="bold" fill="#222">order 2</text>
+<text x="952.5" y="363.6666666666667" font-family="Helvetica, Arial, sans-serif" font-size="10" text-anchor="middle" font-weight="normal" fill="#222">curvature ∇²<tspan baseline-shift="sub" font-size="75%">z</tspan>L</text>
+<polyline points="795,230 858,230" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#head)"/>
+<polyline points="715,186 715,119" fill="none" stroke="#333" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#head)"/>
+<text x="720" y="150" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="start" font-weight="normal" fill="#333" font-style="italic">Z sets τ</text>
+<polyline points="1020,117 1020,196" fill="none" stroke="#333" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#head)"/>
+<text x="1015" y="150" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="end" font-weight="normal" fill="#333" font-style="italic">τ enters L</text>
+<rect x="610" y="430" width="450" height="140" rx="10" fill="#efe8f6" stroke="#6f4fa3" stroke-width="1.5"/>
+<text x="614" y="423" font-family="Helvetica, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="bold" fill="#6f4fa3">Time</text>
+<rect x="625" y="455" width="200" height="90" rx="6" fill="#ffffff" stroke="#6f4fa3" stroke-width="1.2"/>
+<text x="725.0" y="482.6666666666667" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="bold" fill="#222">embedding flow</text>
+<text x="725.0" y="496.6666666666667" font-family="Helvetica, Arial, sans-serif" font-size="10" text-anchor="middle" font-weight="normal" fill="#222">Ż = −Θ ∇<tspan baseline-shift="sub" font-size="75%">Z</tspan>L  (ODE)</text>
+<text x="725.0" y="510.6666666666667" font-family="Helvetica, Arial, sans-serif" font-size="10" text-anchor="middle" font-weight="normal" fill="#222">∂<tspan baseline-shift="sub" font-size="75%">t</tspan>p<tspan baseline-shift="sub" font-size="75%">z</tspan>  (PDE)</text>
+<text x="725.0" y="524.6666666666667" font-family="Helvetica, Arial, sans-serif" font-size="10" text-anchor="middle" font-weight="normal" fill="#222">free particles: Θ = I</text>
+<rect x="845" y="455" width="200" height="90" rx="6" fill="#ffffff" stroke="#6f4fa3" stroke-width="1.2"/>
+<text x="945.0" y="489.6666666666667" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="bold" fill="#222">parameter flow</text>
+<text x="945.0" y="503.6666666666667" font-family="Helvetica, Arial, sans-serif" font-size="10" text-anchor="middle" font-weight="normal" fill="#222">θ̇ = −J<tspan baseline-shift="super" font-size="75%">T</tspan>∇<tspan baseline-shift="sub" font-size="75%">Z</tspan>L  (SGD)</text>
+<text x="945.0" y="517.6666666666667" font-family="Helvetica, Arial, sans-serif" font-size="10" text-anchor="middle" font-weight="normal" fill="#222">Θ = JJ<tspan baseline-shift="super" font-size="75%">T</tspan>, ND × ND</text>
+<polyline points="1045,289 1075,289 1075,500 1047,500" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#head)"/>
+<text x="1080" y="395" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="start" font-weight="normal" fill="#333" font-style="italic">∇<tspan baseline-shift="sub" font-size="75%">Z</tspan>L</text>
+<polyline points="845,500 827,500" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#head)"/>
+<text x="836" y="492" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#333" font-style="italic">J</text>
+<polyline points="790,455 790,338" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#head)"/>
+<text x="785" y="420" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="end" font-weight="normal" fill="#333" font-style="italic">moves Z</text>
+<polyline points="945,545 945,610 10,610 10,140 420,140 420,204" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#head)"/>
+<text x="480" y="604" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#333" font-style="italic">update θ</text>
+<rect x="225" y="430" width="360" height="140" rx="10" fill="#e5f3f3" stroke="#2d7f80" stroke-width="1.5"/>
+<text x="229" y="423" font-family="Helvetica, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="bold" fill="#2d7f80">Use</text>
+<rect x="240" y="460" width="140" height="60" rx="6" fill="#ffffff" stroke="#2d7f80" stroke-width="1.2"/>
+<text x="310.0" y="486.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#222">linear probe</text>
+<text x="310.0" y="501.5" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#222">reads h</text>
+<rect x="405" y="460" width="165" height="60" rx="6" fill="#ffffff" stroke="#2d7f80" stroke-width="1.2"/>
+<text x="487.5" y="486.6666666666667" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="bold" fill="#222">task family ℱ</text>
+<text x="487.5" y="500.6666666666667" font-family="Helvetica, Arial, sans-serif" font-size="10" text-anchor="middle" font-weight="normal" fill="#222">posterior η = E[Y | X]</text>
+<polyline points="365,275 365,458" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#head)"/>
+<polyline points="380,490 403,490" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#head)"/>
+</svg>

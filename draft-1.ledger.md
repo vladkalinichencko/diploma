@@ -19,7 +19,9 @@ Target: `draft-1.md`, whole file.
 - Robinson reproduction notes: `~/VSCodeProjects/ssl-robinson-ifm/notes`.
 - Critiques of Wang-Isola: ChatGPT dialogue https://chatgpt.com/share/6a45a21f-c0fc-83ea-8f67-112af747a159 (read: yes). Nie et al. 2023, Wang-Liu 2021, Jing et al. 2022, Fang et al. 2024, Xue et al. 2023, RankMe.
 - Obsidian notes: `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Vlad Otpad's Vault/SSL` ("SSL Theory.md", "SSL on Tiny Sample with a Tiny Model.md").
-- Previous version before the restructure: `draft-1.previous.md` (includes the author's edits of 7 Oct, 15:00); delete once the new structure is accepted. The mapping below translates its section and proposition numbers.
+- Previous version before the restructure: git commit f98badf (includes the author's edits of 7 Oct, 15:00). The mapping below translates its section and proposition numbers. Repository: https://github.com/vladkalinichencko/diploma (private).
+- Theory papers read in full for their theorems and measurements: Luthra, Bryant, Zhu, Galanti 2026 (arXiv:2609.38393); Luthra, Yang, Galanti 2025 (2506.04411); Luthra, Salunkhe, Galanti 2026 (2603.03530); Gretton et al. 2026 (2605.05118); Zhu et al. 2026 (2609.04264). Read only at the level of abstracts, so highlighted in 8.1: MCL, LooC, CASSLE, DivDis, lens, Viewmaker, Steerable, task-robust pretraining, Uzan-Weinberger, Bordes et al. 2023.
+- Figures: `figures/atlas.py` writes `figures/system.svg` (Figure 1) and `figures/atlas.svg` (Figure 2); run `python3 figures/atlas.py`. The level names in the script, in Figure 1 and in the table of 1.2 must stay identical.
 
 ## Points
 
@@ -37,6 +39,9 @@ Target: `draft-1.md`, whole file.
 - P12: Downstream guidance works only when the labels cannot be satisfied through the shortcut. (RandBit README; §7, §8)
 - P13: Small-sample SSL is an application, not the main work. (C6; §9)
 - P14: Graph ML is a side formalism, highlighted. (chat; §6.4)
+- P15: Every result looks at a few cells of one map of the training system (data, network, sample, objective order, time, control, use). A theorem that is sound in its paper fails in the next one because the test asks about a cell the theorem leaves blank. (chat; §1.2, Figure 1, Figure 2, §4.1, §4.7)
+- P16: Axes of non-fixedness: score matching has a fixed target, SSL moves the target law, the kernel width, the relation, the batch, the parametrization and the second branch; each moving axis turns a convergence theorem with a fixed target into a statement about a sequence of problems. (chat; §4.6 table)
+- P17: New theory papers, each with what it measures, on which object, how it is derived, how it agrees with the rest, and what happens at finite samples: two-view operator and captured energy (4.3, Prop 4.7), NSCL gap $e^{2/\tau}$ (Prop 4.8), directional CDNV on $h$ (4.3), first variation of uniformity (Prop 4.16) against Gretton's WGF velocity (Prop 4.17), Zhu's laziness numbers (7.4), RandBit counts (7.2). (chat; §4.3, §4.6, §7.2, §7.4, §8.3, §8.5)
 
 ## User phrasings
 
@@ -44,6 +49,8 @@ Target: `draft-1.md`, whole file.
 - U2: "unify contrastive, regularizers and siamese approaches": used in §0 and §2.
 - U3: "waves of different approaches, grouped into 3 groups": used in §5 opening.
 - U4: Wang-Isola "a very cool and influential paper" that "still fails to cover all properties of original infonce loss": used in §4.2 opening, in register.
+- U5: "оси нефиксированности": used as "axes" of the moving target in §4.6, in English.
+- U6: "нулевого порядка — это к чему вообще относится?": answered in place, "a zero-order model of contrastive learning at the level of the embedding law" (§4.2) and the order paragraph of §1.2.
 
 ## Corrections
 
@@ -79,6 +86,8 @@ Target: `draft-1.md`, whole file.
   pattern: (?m)^#+.*Robinson
 - C12 (global): no em dashes; no "not X, but Y"; no hard line wraps inside paragraphs.
   pattern: —
+- C13: bad: "Wang and Isola is a zero-order model" without saying zero order of what. fix: every claim names its object (embedding law, individual embeddings, batch, loss, parameters or neurons) inside the sentence, without a separate sentence for it.
+  rule: each statement carries its level from the table of 1.2; a symbol has one meaning in the whole text ($h$ is only the representation).
 
 ## Section map from the previous structure
 
@@ -86,13 +95,23 @@ Old 2.1 → 2.2 and 5.2; 2.2 → 4.2; 2.3.1 → 3.5; 2.3.2 → 3.2; 2.3.3-2.3.4 
 
 Old proposition numbers used outside the draft: 3.4 (multiset invariance) → 2.11, 6.2 (A-GEM) → 8.2. `experiments/randbit/README.md` cites the new numbers.
 
+Chapter 4 renumbering after the new theory papers (commit 454901b → next): 4.7 Zimmermann → 4.9; 4.8 Locatello → 4.10; 4.9 gradient-optimal width → 4.11; 4.10 mean-field → 4.12; 4.11 Silverman → 4.13; 4.12 Hyvärinen → 4.14; 4.13 Vincent → 4.15; Conjecture 4.14 → 4.18. New: 4.7 two-view operator (Luthra 2026), 4.8 NSCL (Luthra 2025), 4.16 first variation of uniformity, 4.17 Gretton et al.
+
 ## Decisions
 
 - Symbols: $K$ is the number of negatives everywhere; the RandBit bit count is $b$.
 - TC-LeWM: the draft keeps the author's 63.6% → 83.8% (LIBERO, suite-wise, 10 tasks); the RandBit README still says 53.2% → 73.6%, so one of the two needs checking against the paper.
 - MotionJEPA ball NMSE: 1.001 for SIGReg (LeWM) against 0.005 for DISReg in 7.4; 1.26 for the forward-only baseline in 8.5. Each number names its baseline.
+- Two-view operator: $\mathcal T=\mathcal D^{-1}W$, same eigenvalues as $\bar A$, eigenfunctions $\psi=\mathcal D^{-1/2}u$. Luthra et al. do not link it to HaoChen; the link is this work's.
+- Zimmermann and Locatello: latents are $c$, the encoder is $f$, so $z$ and $h$ keep their meaning.
+- Symbols: Silverman's bandwidth is $\sigma$; Cheeger's conductance is $\mathrm{cond}(G)$; a learned edge operator is $\mathcal R(x_i,x_j)$.
+- Numbers checked against the papers: Luthra 2026 median absolute difference below 0.05 is $\hat B$ against its label-free spectral reconstruction; Zhu et al. one-ball planning at $H=4$ goes from 1.2% to 90.0%, and Spearman $\rho$ is $-0.0008$ (controlled ball) against $0.40$ (environment ball); Gretton's $\tau=2\sigma^2$; NSCL gap 0.60/0.007 nats at $\tau=1$ and 7.8/3.1 at $\tau=0.2$ for 10/1000 classes.
+- RandBit counts ($N=256$, $D=128$, $K=510$): whitening needs $2^b-1\ge128$, so $b=8$; instance discrimination needs $2^b\ge N$, so $b=8$; $K2^{-b}\approx2$ at $b=8$; VICReg's invariance and variance terms (weights 25, 25) hold with 16 codes. SIGReg below the untrained encoder at $b=6$ is left as a highlighted open point.
 
 ## Next steps for the author
 
 - Fill highlighted claims after reading Tian 2022, Garrido 2023 duality conditions, Simon et al. 2023, Tan et al. 2024, Wang et al. 2022.
-- RandBit: three seeds near the thresholds, BYOL as the siamese row, guidance at the threshold, reconstruction control, sample-size knob.
+- RandBit: three seeds near the thresholds, BYOL as the siamese row, guidance at the threshold, reconstruction control, sample-size knob, dimension and batch knobs for the counts of 7.2; MCL and adversarial views as the first remedies to try.
+- Read in full the abstract-level papers of 8.1 before removing their highlight.
+- Check whether task directions of trained encoders are nearly orthogonal (8.3), which decides whether $G_T$ composes as a sum.
+- Prove or drop Conjecture 4.18 with the anchor-drift experiment of 10.3.
