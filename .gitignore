@@ -1,0 +1,5 @@
+.DS_Store
+.recall/
+experiments/randbit/cache/
+__pycache__/
+draft-1.audit.md
