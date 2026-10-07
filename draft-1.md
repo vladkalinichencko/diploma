@@ -109,7 +109,7 @@ The loss compares embeddings through the relation that declares inputs equivalen
 
 On a batch the relation appears as positive pairs. The mean squared distance between positives, $p=\mathbb E\|z_i-z_{i^+}\|^2$, and between different inputs, $q=\mathbb E_{i\ne j}\|z_i-z_j\|^2$, recur throughout, together with their gap $g=q-p$. At initialization the embeddings are nearly orthogonal and $p\approx q\approx2$. Complete collapse sends every input to one point, $p,q\to0$. Dimensional collapse keeps $q>0$ and confines the cloud to a subspace of dimension below $D$, which shows as zero singular values of the batch covariance $Z^\top Z$.
 
-These statistics describe the embeddings, and whether the embeddings serve a task is a separate measurement. A linear probe on a frozen encoder measures whether information is linearly accessible, and information can be present while the probe misses it. Other measures used below are per-factor probe error, the effective rank of the embedding matrix $Z$ (the exponent of the entropy of its normalized singular values) and uniformity (the logarithm of the mean Gaussian kernel over pairs of embeddings, low when the cloud is spread; Wang and Isola). A task is a map $y:\mathcal X\to\mathcal Y$ with posterior $\eta(x)=\mathbb E[Y\mid X=x]$, and $\mathcal F$ is the set of tasks the representation will serve; chapter 6 argues that semantics is the choice of $\mathcal F$.
+These statistics describe the embeddings, and whether the embeddings serve a task is a separate measurement. A linear probe on a frozen encoder measures whether information is linearly accessible, and information can be present while the probe misses it. Other measures used below are per-factor probe error, the effective rank of the embedding matrix $Z$ (the exponent of the entropy of its normalized singular values; Roy and Vetterli) and uniformity (the logarithm of the mean Gaussian kernel over pairs of embeddings, low when the cloud is spread; Wang and Isola). A task is a map $y:\mathcal X\to\mathcal Y$ with posterior $\eta(x)=\mathbb E[Y\mid X=x]$, and $\mathcal F$ is the set of tasks the representation will serve; chapter 6 argues that semantics is the choice of $\mathcal F$.
 
 ### 1.2. Levels of a training system
 
@@ -160,7 +160,7 @@ A constant encoder therefore reaches the global minimum of alignment. The minimu
 
 ### 2.2. Contrastive repulsion is a kernel density estimate
 
-The contrastive family builds the second force from negatives. For anchor $z$, positive $z^+$ and $K$ negatives $z_k^-$, InfoNCE is the cross-entropy of finding the positive among $K+1$ candidates,
+The contrastive family builds the second force from negatives. For anchor $z$, positive $z^+$ and $K$ negatives $z_k^-$, InfoNCE (van den Oord et al.), a descendant of noise-contrastive estimation (Gutmann and Hyvärinen), is the cross-entropy of finding the positive among $K+1$ candidates,
 
 $$
 \mathcal L=-\frac{s^+}{\tau}+\log\Big(e^{s^+/\tau}+\sum_{k=1}^K e^{s_k/\tau}\Big),\qquad s^+=z^\top z^+,\ s_k=z^\top z_k^-.
@@ -255,7 +255,7 @@ A unifying language earns its place only if it predicts something that is not kn
 
 ### 2.6. The flow is a score difference
 
-The drift $V$ also has a reading outside SSL, since by Proposition 2.4 $V/\sigma^2=\nabla\log\hat p^+-\nabla\log\hat p^-$ is a difference of scores, the object that score matching learns and diffusion models integrate. Mean shift moves points along $\nabla\log\hat p$ at a fixed width (Fukunaga-Hostetler). Denoising score matching learns the score of a density smoothed by Gaussian noise, which is a KDE of width $\sigma$ when the noise has variance $\sigma^2$ (Vincent, 4.6). Drifting generators move generated samples by $\mu^+-\mu^-$ with data as positives and their own samples as negatives (Deng et al.). Turan and Ovsjanikov show that this drift is score matching. Gretton et al. show that it is a Wasserstein gradient flow (steepest descent of a functional of a distribution, with distances between distributions measured by optimal transport) only after one more smoothing, ==which 4.6 identifies with the terms of other anchors==. The PPS paper derived Proposition 2.4. DriftSSL, the author's earlier attempt to train SSL with the drift as the loss (4.6), used it to rewrite contrastive losses as score matching. In score matching and in generation the target density is the data distribution and stays fixed. In SSL both clouds are outputs of the encoder, so the density the embeddings move toward moves with them. The target also moves along other axes: the batch is resampled every step, the kernel width can be computed from the batch, the network ties the points to each other, and siamese methods parametrize the target with a second branch. The table in 4.6 lists these axes and what holds each still. The moving target explains why siamese methods need a stopped gradient and why a gradient-flow reading of SSL needs a frozen target (Conjecture 4.18). Which proofs carry over between these models is decided by which of their assumptions survive the moving target, and 4.6 sorts them.
+The drift $V$ also has a reading outside SSL, since by Proposition 2.4 $V/\sigma^2=\nabla\log\hat p^+-\nabla\log\hat p^-$ is a difference of scores, the object that score matching learns and diffusion models integrate (Song and Ermon; Ho et al.; Song et al.). Mean shift moves points along $\nabla\log\hat p$ at a fixed width (Fukunaga-Hostetler). Denoising score matching learns the score of a density smoothed by Gaussian noise, which is a KDE of width $\sigma$ when the noise has variance $\sigma^2$ (Vincent, 4.6). Drifting generators move generated samples by $\mu^+-\mu^-$ with data as positives and their own samples as negatives (Deng et al.). Turan et al. show that this drift is score matching. Gretton et al. show that it is a Wasserstein gradient flow (steepest descent of a functional of a distribution, with distances between distributions measured by optimal transport) only after one more smoothing, ==which 4.6 identifies with the terms of other anchors==. The PPS paper derived Proposition 2.4. DriftSSL, the author's earlier attempt to train SSL with the drift as the loss (4.6), used it to rewrite contrastive losses as score matching. In score matching and in generation the target density is the data distribution and stays fixed. In SSL both clouds are outputs of the encoder, so the density the embeddings move toward moves with them. The target also moves along other axes: the batch is resampled every step, the kernel width can be computed from the batch, the network ties the points to each other, and siamese methods parametrize the target with a second branch. The table in 4.6 lists these axes and what holds each still. The moving target explains why siamese methods need a stopped gradient and why a gradient-flow reading of SSL needs a frozen target (Conjecture 4.18). Which proofs carry over between these models is decided by which of their assumptions survive the moving target, and 4.6 sorts them.
 
 The kernel of Proposition 2.2 depends only on distances, so the whole flow can be written in terms of the pairwise distance matrix of the batch. ==In DriftSSL, describing points by pairwise distances made the link to score matching fit much better than coordinates did; whether Propositions 2.4 and 2.13 carry over to a distance-matrix form without extra assumptions is open.==
 
@@ -425,7 +425,7 @@ The bound holds for every encoder, so it is an order-0 statement about the value
 
 The bounds so far concern the embedding or a minimizer, whereas a probe reads the representation $h$ of a trained encoder. Luthra, Salunkhe and Galanti (2026) measure the variance along the mean difference on $h$ directly. For classes $i,j$ with means $\mu_i,\mu_j$, within-class covariance $\Sigma_i$ and $u_{ij}=(\mu_i-\mu_j)/\|\mu_i-\mu_j\|$, the directional CDNV is $\tilde\nu_{ij}=u_{ij}^\top\Sigma_iu_{ij}/\|\mu_i-\mu_j\|^2$. They bound the few-shot NCC error by the average of $4\tilde\nu_{ij}$ over pairs of classes plus terms that vanish as the number of examples grows, assuming only finite fourth moments. The constant 4 cannot be lowered (Cantelli's inequality, a one-sided Chebyshev bound). Across SimCLR, VICReg, MAE, DINOv2, CLIP, SigLIP and I-JEPA, $\tilde\nu$ falls during training from about 2 to between $2^{-5}$ and $2^{-3}$, whereas the classical CDNV barely changes. ==Proposition 3.1 of the paper on captured energy explains the difference. Under its assumptions the ratio of the two measures is $(r-B)/(1-B)$, so the classical CDNV stays large as $B\to1$, because it counts the variance in the $r-1$ directions orthogonal to the mean difference, which the NCC error stops paying for once there are enough examples.== Of the results in this chapter this is the only one that concludes about $h$, the representation the probe reads.
 
-The guarantees above either assume the classes or measure them. Identifiability asks a prior question, whether the latent variables that generated the data can be recovered at all. Zimmermann et al. answer it for latents on a sphere whose positive pairs are vMF neighbours. At $K\to\infty$ the contrastive loss is then a cross-entropy between the true conditional of the positive and the model conditional, which is minimal when the encoder reproduces the inner products of the latents.
+The guarantees above either assume the classes or measure them. Identifiability asks a prior question, whether the latent variables that generated the data can be recovered at all. Reizinger et al. argue that SSL theory should be built on identifiability measured in practice. Zimmermann et al. answer it for latents on a sphere whose positive pairs are vMF neighbours. At $K\to\infty$ the contrastive loss is then a cross-entropy between the true conditional of the positive and the model conditional, which is minimal when the encoder reproduces the inner products of the latents.
 
 *Proposition 4.9 (Zimmermann et al.).* If latents $c$ are uniform on $S^{d-1}$, $p(\tilde c|c)\propto e^{\kappa c^\top\tilde c}$, the data are $x=\gamma(c)$ with an injective generator $\gamma$, and the encoder $f$ maps to the sphere, every minimizer of the contrastive loss at $K\to\infty$ satisfies $f\circ\gamma=R$ with $R$ orthogonal.
 
@@ -503,7 +503,7 @@ With the correct velocity, the Wasserstein reading of SSL can be stated precisel
 
 Proposition 4.17 is the parameter-side version of the same statement for a generator. ==The step needs a written proof, in particular for the attraction, which in InfoNCE pulls toward one positive and matches $\nabla\log\hat p^+$ only through Proposition 2.4. Whether the sequence of flows, with $\hat p^+$ rebuilt after every step, converges is open.== SIGReg compares the batch with a fixed $\mathcal N(0,I)$ and needs no stopped gradient for its target.
 
-Convergence of such flows is proved only for a fixed target, and sometimes not even then. MMD is not displacement-convex, that is, convex along the optimal-transport paths between distributions. Arbel et al. show that the MMD flow converges to its target only under extra conditions, so a state where the field vanishes at the particles while the cloud differs from the target cannot be excluded (Proposition 2.13). ==Whether stable stalls exist for the vMF kernel on the sphere is open; a proof that they do not would close one piece of the theory.== Drifting generators sit between the two settings. Deng et al. train a generator with the drift $\mu^+-\mu^-$, data as positives and generated samples as negatives. Turan and Ovsjanikov show that the drift is score matching. Cao, Wei and Liu read it as the Wasserstein gradient flow of a divergence between KDEs, which by Gretton et al. holds up to the extra convolution. In generation the data density is fixed and these convergence arguments apply. In SSL both clouds move, so exact identities transfer, convergence results transfer only with a frozen target (a stopped gradient, a moving-average teacher, or a fixed distribution as in SIGReg), and bandwidth rules transfer as analogies because the error criteria differ.
+Convergence of such flows is proved only for a fixed target, and sometimes not even then. MMD is not displacement-convex, that is, convex along the optimal-transport paths between distributions. Arbel et al. show that the MMD flow converges to its target only under extra conditions, so a state where the field vanishes at the particles while the cloud differs from the target cannot be excluded (Proposition 2.13). ==Whether stable stalls exist for the vMF kernel on the sphere is open; a proof that they do not would close one piece of the theory.== Drifting generators sit between the two settings. Deng et al. train a generator with the drift $\mu^+-\mu^-$, data as positives and generated samples as negatives. Turan et al. show that the drift is score matching. Cao, Wei and Liu read it as the Wasserstein gradient flow of a divergence between KDEs, which by Gretton et al. holds up to the extra convolution. In generation the data density is fixed and these convergence arguments apply. In SSL both clouds move, so exact identities transfer, convergence results transfer only with a frozen target (a stopped gradient, a moving-average teacher, or a fixed distribution as in SIGReg), and bandwidth rules transfer as analogies because the error criteria differ.
 
 The target of SSL moves along several axes at once, most of which score matching fixes. The table lists the axes, the level of Figure 1 at which each lives, and what holds it still.
 
@@ -683,13 +683,13 @@ Augmentations and prediction targets both enter the loss as a graph with one wei
 
 *Proposition 6.5 (connection Laplacian, after Singer and Wu).* Let $G$ be connected, take orthogonal $R_{ij}\in O(D)$ with $R_{ji}=R_{ij}^{-1}$, and the energy $\mathcal E(z)=\sum w_{ij}\|z_i-R_{ij}z_j\|^2$. If the product of the $R$ along every cycle is $I$ (for a triangle, $R_{ij}R_{jk}R_{ki}=I$), then $R_{ij}=U_iU_j^{-1}$ for some $U_i\in O(D)$ and $\min\mathcal E=0$ at a non-trivial $z$; at $R\equiv I$ this is the usual Laplacian.
 
-Cycle consistency is thus the condition for a global coordinate system. It can also serve as a penalty on learned operators (10.3). Without consistency one gets Vector Diffusion Maps and sheaf networks. Hierarchy needs several scales, as in diffusion wavelets. Exact equivariance (G-CNN, tensor field networks, NequIP) gives a large gain when the symmetry is known and exact. ==Learned symmetries (LieGAN, Neural Isometries, Self-supervised Transformation Learning, Equivariance by Contrast, and nearby ContextSSL and AIL) are unread in detail.== A learned equivariance has its own collapse. For $\sum\|F(x)-R\,F(Tx)\|^2$ the choice $F\equiv0$, $R\equiv I$ gives zero, so it needs variance or whitening terms, reconstruction, or a penalty against $R=I$. Each method fixes something in advance, whether the neighbourhood, the positive pairs, the symmetry family, the graph or the scale.
+Cycle consistency is thus the condition for a global coordinate system. It can also serve as a penalty on learned operators (10.3). Without consistency one gets Vector Diffusion Maps and sheaf networks. Hierarchy needs several scales, as in the diffusion wavelets of Coifman and Maggioni, which extend the diffusion maps of Coifman and Lafon. Exact equivariance (G-CNN, tensor field networks, NequIP) gives a large gain when the symmetry is known and exact. ==Learned symmetries (LieGAN, Neural Isometries, Self-supervised Transformation Learning, Equivariance by Contrast, and nearby ContextSSL and AIL) are unread in detail.== A learned equivariance has its own collapse. For $\sum\|F(x)-R\,F(Tx)\|^2$ the choice $F\equiv0$, $R\equiv I$ gives zero, so it needs variance or whitening terms, reconstruction, or a penalty against $R=I$. Each method fixes something in advance, whether the neighbourhood, the positive pairs, the symmetry family, the graph or the scale.
 
 The connection Laplacian is one tool of graph theory, which is a second language for the same questions and a side topic of this thesis. HaoChen et al. read contrastive learning as spectral clustering on the augmentation graph. ==Tan et al. (2024) prove that InfoNCE performs spectral clustering on a similarity graph. Wang et al. (2022) explain the success of contrastive learning on a nearly discrete graph through augmentation overlap between images of one class ("chaos is a ladder"). Both are unread in detail. Whether they close the soft-graph question of 4.3 is open.==
 
 ### 6.5. Quality is defined through the task
 
-The relation, the prediction target and the operators each serve some task family, so there is no general quality of an embedding. Proxies such as alignment, uniformity and RankMe are many, yet none suffices (4.2, 3.4). Quality is the match between the representation and the task family $\mathcal F$. Measuring it against the world requires fixing $\mathcal F$ on a toy with known factors and comparing the proxies with probe error and retrieval ==(10.1)==. ==A good manifold may have low local complexity, smoothness with respect to the learned geometry, repeatability and locality, several scales, robustness to transformations, high effective rank and easy readout of important factors; no single property defines a useful geometry, since smoothness depends on the metric.== ==Token fields, hyperbolic and product manifolds, subspaces and distributions are candidate alternatives to a point in $\mathbb R^d$. No theory compares them yet.==
+The relation, the prediction target and the operators each serve some task family, so there is no general quality of an embedding. Proxies such as alignment, uniformity and RankMe are many, yet none suffices (4.2, 3.4). Quality is the match between the representation and the task family $\mathcal F$. Measuring it against the world requires fixing $\mathcal F$ on a toy with known factors and comparing the proxies with probe error and retrieval ==(10.1)==. ==A good manifold may have low local complexity, smoothness with respect to the learned geometry, repeatability and locality, several scales, robustness to transformations, high effective rank and easy readout of important factors; no single property defines a useful geometry, since smoothness depends on the metric.== ==Token fields, hyperbolic manifolds (Nickel and Kiela) and product manifolds (Gu et al.), subspaces and distributions are candidate alternatives to a point in $\mathbb R^d$. No theory compares them yet.==
 
 ### 6.6. Open questions of SSL theory
 
@@ -768,7 +768,7 @@ If semantics is the choice of the task family $\mathcal F$ (Proposition 6.1), a 
 
 ### 8.1. Families of methods that use a task
 
-Classical semi-supervised learning is the oldest way to let a task in. It relies on the manifold, smoothness and low-density assumptions (FixMatch, ==S4L==, ==PAWS==). Supervised contrastive learning uses labels to define positives. Pretraining aware of the downstream task includes BiSSL, V-pretraining and task-customized pretraining. Continual learning projects gradients (A-GEM, ==PCGrad==). Some methods choose the invariance by task (==AIL, ContextSSL==). All of them assume that the structure of $p(x)$ is tied to $p(y|x)$. ==What each method assumes, and where reports on them disagree, is uncollected (8.5).==
+Classical semi-supervised learning is the oldest way to let a task in (Chapelle et al.). It relies on the manifold, smoothness and low-density assumptions (FixMatch, ==S4L==, ==PAWS==). Supervised contrastive learning uses labels to define positives. Pretraining aware of the downstream task includes BiSSL, V-pretraining and task-customized pretraining. Continual learning projects gradients (A-GEM, ==PCGrad==). Some methods choose the invariance by task (==AIL, ContextSSL==). All of them assume that the structure of $p(x)$ is tied to $p(y|x)$. ==What each method assumes, and where reports on them disagree, is uncollected (8.5).==
 
 ==A second group prepares the representation for a task that is unknown during pretraining. These methods are read at the level of abstracts. Multistage contrastive learning (MCL, Zhang et al.) samples the negatives of each stage within clusters of the features learned in earlier stages, so those features no longer separate the negatives and the next stage has to learn others. LooC (Xiao et al.) keeps several embedding spaces, each invariant to all augmentations but one, so information that one augmentation destroys survives in another space. CASSLE (Przewięźlikowski et al.) conditions the projector on the augmentation parameters, so the encoder may keep what the augmentations change. DivDis (Lee et al.) trains several heads that disagree on unlabeled data and chooses among them with a few labels. The lens of Minderer et al. and the Viewmaker of Tamkin et al. learn adversarial changes of the input that raise the SSL loss, which removes a shortcut at the input, where RandBit places it. Steerable representations (Ruthardt et al.) let a query choose which features the representation exposes. Task-robust pretraining (Wang et al. 2023) and the representation-learning game of Uzan and Weinberger optimize against the worst task of a class, which turns the task family $\mathcal F$ of chapter 6 into the objective. MCL acts on the negatives and the adversarial views act on the input, where RandBit puts its code, so they are the first candidates to test on RandBit.==
 
@@ -830,7 +830,7 @@ A convolutional network learns patterns of growing size through its layers. Each
 
 The features of the first layers therefore get many observations from one image. Zontak and Irani measured how often small patches of a natural image recur inside the same image and found many recurrences across positions and scales. Older methods that learn only such local features need few images for this reason. Olshausen and Field trained a sparse dictionary on patches of natural images and obtained localized oriented filters similar to the receptive fields of the primary visual cortex. Coates, Ng and Lee matched the best unsupervised methods of 2011 on CIFAR-10 with k-means on whitened patches applied densely over the image. U-Net was trained on 30 densely labeled images, since every pixel is a labeled example for one local detector shared across positions.
 
-The same recurrence lets a network train on a single image. ZSSR trains a network for super-resolution on the one image it has to enlarge, with training pairs built from the image and its downscaled copies (Figure 18). ==Tirer et al. review learning from a single input as a field of its own.== Asano, Rupprecht and Vedaldi tested the layer argument directly. They trained a network with self-supervision and strong augmentation on one image (Figure 19). Its first layers matched those of a network trained on a million ImageNet images, whereas its deeper layers fell behind.
+The same recurrence lets a network train on a single image. ZSSR trains a network for super-resolution on the one image it has to enlarge, with training pairs built from the image and its downscaled copies (Figure 18). Tirer et al. review learning from a single input as a field of its own. Asano, Rupprecht and Vedaldi tested the layer argument directly. They trained a network with self-supervision and strong augmentation on one image (Figure 19). Its first layers matched those of a network trained on a million ImageNet images, whereas its deeper layers fell behind.
 
 ![Figure 18](figures/papers/zssr_internal.png)
 
@@ -852,7 +852,7 @@ Random noise has a parameter without structure, a fresh vector of pixel values f
 
 A rotation by a multiple of 90° has a parameter with four values, each of which means the same change on every image. A network can therefore learn to predict it, as RotNet (Gidaris et al.) does by classifying which of the four rotations was applied. Photographers keep objects upright, so telling an upright cat from a rotated one requires recognizing the cat, which makes the prediction task a way to learn objects. Jigsaw predicts the permutation in the same way. The predictor of I-JEPA receives the positions of the hidden blocks, so it is conditioned on the parameter of the mask.
 
-Invariance erases the parameter, which helps a task that ignores the transformation and harms a task that needs it. A random crop or a small change of colour rarely changes what an image shows, so invariance to them costs little in ImageNet classification. Colour invariance erases what a flower classifier uses (Xiao et al.). Rotation invariance merges a 6 with a 9, since a rotation by 180° turns one into the other. Equivariance keeps the parameter in a known form, so a linear probe can read it for a task that needs it and give its directions zero weight for a task that does not.
+Invariance erases the parameter, which helps a task that ignores the transformation and harms a task that needs it. A random crop or a small change of colour rarely changes what an image shows, so invariance to them costs little in ImageNet classification. Colour invariance erases what a flower classifier uses (Xiao et al.). Rotation invariance merges a 6 with a 9, since a rotation by 180° turns one into the other. Ericsson, Gouk and Hospedales measure this trade-off over many downstream tasks. A model transfers better to a task whose invariances it shares. Different tasks need different invariances, some of them opposite. Purushwalkam and Gupta find that the aggressive crops of contrastive methods give invariance to occlusion, whereas invariance to viewpoint, which recognizing an object across poses needs, stays weak. Equivariance keeps the parameter in a known form, so a linear probe can read it for a task that needs it and give its directions zero weight for a task that does not.
 
 The joint-embedding methods of chapters 2-5 are invariant by construction. Their loss compares the embeddings of two views and never receives the parameters that produced them, so equality is the only relation it can ask for. SimCLR, BYOL, VICReg and DINO therefore all train toward invariance to their augmentations. The prediction methods before them (RotNet, jigsaw) and the masked methods after them (MAE, I-JEPA) keep the parameter. Several works add it back to joint embedding. Dangovski et al. (E-SSL) add the prediction of the four rotations to an invariant contrastive loss and improve on the invariant baseline. Xiao et al. (LooC) give each augmentation its own embedding space that stays sensitive to it. InfoMin (Proposition 6.3) states when invariance alone is enough, namely when the two views share exactly the information the task needs (Figure 12).
 
@@ -1108,37 +1108,37 @@ The first order vanishes, so the collapsed state is a critical point. Take $u_i=
 - Gutmann, Hyvärinen. Noise-contrastive estimation: a new estimation principle for unnormalized statistical models. AISTATS 2010.
 - Wang, Isola. Understanding Contrastive Representation Learning through Alignment and Uniformity on the Hypersphere. ICML 2020.
 - Wang, Liu. Understanding the Behaviour of Contrastive Loss. CVPR 2021.
-- ==Koromilas et al. Bridging Mini-Batch and Asymptotic Analysis in Contrastive Learning: From InfoNCE to Kernel-Based Losses. ICML 2024.==
+- ==Koromilas, Bouritsas, Giannakopoulos, Nicolaou, Panagakis. Bridging Mini-Batch and Asymptotic Analysis in Contrastive Learning: From InfoNCE to Kernel-Based Losses. ICML 2024. arXiv:2405.18045==
 - Yeh et al. Decoupled Contrastive Learning. ECCV 2022. arXiv:2110.06848
 - Chuang et al. Debiased Contrastive Learning. NeurIPS 2020. arXiv:2007.00224
 - Robinson, Chuang, Sra, Jegelka. Contrastive Learning with Hard Negative Samples. ICLR 2021. arXiv:2010.04592
-- ==Huynh et al. Boosting Contrastive Self-Supervised Learning with False Negative Cancellation. WACV 2022.==
+- ==Huynh, Kornblith, Walter, Maire, Khademi. Boosting Contrastive Self-Supervised Learning with False Negative Cancellation. WACV 2022. arXiv:2011.11765==
 - Chen et al. Incremental False Negative Detection for Contrastive Learning. ICLR 2022. arXiv:2106.03719
 - Robinson, Sun, Yu, Batmanghelich, Jegelka, Sra. Can Contrastive Learning Avoid Shortcut Solutions? NeurIPS 2021. arXiv:2106.11230
 - Hermann, Lampinen. What Shapes Feature Representations? Exploring Datasets, Architectures, and Training. NeurIPS 2020. arXiv:2006.12433
 - Chen, Luo, Li. Intriguing Properties of Contrastive Losses. NeurIPS 2021. arXiv:2011.02803
 - Li et al. Addressing Feature Suppression in Unsupervised Visual Representations (PrCL). WACV 2023. arXiv:2012.09962
 - Xue, Joshi, Gan, Chen, Mirzasoleiman. Which Features are Learnt by Contrastive Learning? On the Role of Simplicity Bias in Class Collapse and Feature Suppression. ICML 2023. arXiv:2305.16536
-- ==Hamidieh, Zhang, Sankaranarayanan, Ghassemi. Views Can Be Deceiving: Improved SSL Through Feature Space Augmentation. ICLR 2024. arXiv:2406.18562==
-- ==Huang, Chen, Zhang, Shan. Model-Aware Contrastive Learning: Towards Escaping the Dilemmas. ICML 2023.==
-- ==Kukleva et al. Temperature Schedules for Self-Supervised Contrastive Methods on Long-Tail Data. ICLR 2023.==
-- ==Manna et al. DySTreSS: Dynamically Scaled Temperature in Self-Supervised Contrastive Learning. 2024.==
-- ==Qiu et al. Not All Semantics are Created Equal: Contrastive Self-Supervised Learning with Automatic Temperature Individualization. ICML 2023.==
+- ==Hamidieh, Zhang, Sankaranarayanan, Ghassemi. Views Can Be Deceiving: Improved SSL Through Feature Space Augmentation. 2024. arXiv:2406.18562==
+- ==Huang, Chen, Wen, Zhang, Li, Wang, Chen. Model-Aware Contrastive Learning: Towards Escaping the Dilemmas. ICML 2023. arXiv:2207.07874==
+- ==Kukleva, Böhle, Schiele, Kuehne, Rupprecht. Temperature Schedules for Self-Supervised Contrastive Methods on Long-Tail Data. ICLR 2023. arXiv:2303.13664==
+- ==Manna, Chattopadhyay, Dey, Bhattacharya, Pal. Dynamically Scaled Temperature in Self-Supervised Contrastive Learning (DySTreSS). 2023. arXiv:2308.01140==
+- ==Qiu, Hu, Yuan, Zhou, Zhang, Yang. Not All Semantics are Created Equal: Contrastive Self-Supervised Learning with Automatic Temperature Individualization. ICML 2023. arXiv:2305.11965==
 - Yuan et al. Provable Stochastic Optimization for Global Contrastive Learning: Small Batch Does Not Harm Performance. ICML 2022.
-- Kim, Kim. A Temperature-Free Loss Function for Contrastive Learning. 2025.
+- Kim, Kim. Temperature-Free Loss Function for Contrastive Learning. 2025. arXiv:2501.17683
 - Zhang et al. Temperature as Uncertainty in Contrastive Learning. 2021.
 - Zhang et al. Dual Temperature Helps Contrastive Learning Without Many Negative Samples. CVPR 2022.
 - Khaertdinov, Asteriadis, Ghaleb. Dynamic Temperature Scaling in Contrastive Self-Supervised Learning for Sensor-Based Human Activity Recognition. 2022.
-- Wang, Koniusz, Gedeon, Zheng. Adaptive Multi-Head Contrastive Learning. ECCV 2024.
+- Wang, Koniusz, Gedeon, Zheng. Adaptive Multi-Head Contrastive Learning. ECCV 2024. arXiv:2310.05615
 - Radford et al. Learning Transferable Visual Models From Natural Language Supervision (CLIP). ICML 2021.
 - Nie, Zhang, Mao. On the Inadequacy of Optimizing Alignment and Uniformity in Contrastive Learning of Sentence Representations. ICLR 2023.
 - Fang, Li, Sun, Wang. Rethinking the Uniformity Metric in Self-Supervised Learning. ICLR 2024.
-- ==Deng et al. Generative Modeling via Drifting. 2026.==
-- ==Turan, Ovsjanikov. Generative Drifting is Secretly Score Matching: A Spectral and Variational Perspective. 2026.==
-- ==Cao, Wei, Liu. Gradient Flow Drifting: Generative Modeling via Wasserstein Gradient Flows of KDE-Approximated Divergences. 2026.==
+- Deng, Li, Li, Du, He. Generative Modeling via Drifting. 2026. arXiv:2602.04770
+- Turan, Dufour, Ovsjanikov. Generative Drifting is Secretly Score Matching: A Spectral and Variational Perspective. 2026. arXiv:2603.09936
+- Cao, Wei, Liu. Gradient Flow Drifting: Generative Modeling via Wasserstein Gradient Flows of KDE-Approximated Divergences. 2026. arXiv:2603.10592
 - ==Arbel, Korba, Salim, Gretton. Maximum Mean Discrepancy Gradient Flow. NeurIPS 2019. arXiv:1906.04370==
 - ==Jing, Vincent, LeCun, Tian. Understanding Dimensional Collapse in Contrastive Self-supervised Learning (DirectCLR). ICLR 2022. arXiv:2110.09348==
-- ==Bordes, Balestriero, Garrido, Bardes, Vincent. Guillotine Regularization: Why removing layers is needed to improve generalization in Self-Supervised Learning. arXiv:2206.13378==
+- ==Bordes, Balestriero, Garrido, Bardes, Vincent. Guillotine Regularization: Why removing layers is needed to improve generalization in Self-Supervised Learning. TMLR 2023. arXiv:2206.13378==
 - ==Bordes, Lavoie, Balestriero, Ballas, Vincent. A surprisingly simple technique to control the pretraining bias for better transfer: Expand or Narrow your representation. arXiv:2304.05369==
 - Positive-Pair Distance Schedules Temperature in Contrastive Learning Without a Grid Search. ICOMP 2026 (own work).
 - He et al. Momentum Contrast for Unsupervised Visual Representation Learning (MoCo). CVPR 2020.
@@ -1152,14 +1152,14 @@ The first order vanishes, so the collapsed state is a critical point. Take $u_i=
 
 ### SSL theory
 
-- Saunshi et al. A Theoretical Analysis of Contrastive Unsupervised Representation Learning. ICML 2019.
+- Saunshi, Plevrakis, Arora, Khodak, Khandeparkar. A Theoretical Analysis of Contrastive Unsupervised Representation Learning. ICML 2019. arXiv:1902.09229
 - ==Saunshi et al. Understanding Contrastive Learning Requires Incorporating Inductive Biases. ICML 2022. arXiv:2202.14037==
 - ==Wen, Li. Toward Understanding the Feature Learning Process of Self-supervised Contrastive Learning. ICML 2021. arXiv:2105.15134==
 - HaoChen, Wei, Gaidon, Ma. Provable Guarantees for Self-Supervised Deep Learning with Spectral Contrastive Loss. NeurIPS 2021. arXiv:2106.04156
 - Ziyin, Lubana, Ueda, Tanaka. What Shapes the Loss Landscape of Self-Supervised Learning? ICLR 2023.
-- Cui et al. An Augmentation-Aware Theory for Self-Supervised Contrastive Learning. ICML 2025.
+- Cui, Wen, Wang. An Augmentation-Aware Theory for Self-Supervised Contrastive Learning. ICML 2025. arXiv:2505.22196
 - Rusak et al. InfoNCE: Identifying the Gap Between Theory and Practice (AnInfoNCE). arXiv:2407.00143
-- Reizinger, Balestriero, Klindt, Brendel. Position: An Empirically Grounded Identifiability Theory Will Accelerate Self-Supervised Learning Research. ICML 2025.
+- Reizinger, Balestriero, Klindt, Brendel. Position: An Empirically Grounded Identifiability Theory Will Accelerate Self-Supervised Learning Research. ICML 2025. arXiv:2504.13101
 - Zimmermann et al. Contrastive Learning Inverts the Data Generating Process. ICML 2021.
 - Locatello et al. Challenging Common Assumptions in the Unsupervised Learning of Disentangled Representations. ICML 2019.
 - ==Tian. Understanding Deep Contrastive Learning via Coordinate-wise Optimization. NeurIPS 2022.==
@@ -1183,15 +1183,15 @@ The first order vanishes, so the collapsed state is a critical point. Take $u_i=
 - Balestriero, LeCun. Contrastive and Non-Contrastive Self-Supervised Learning Recover Global and Local Spectral Embedding Methods. NeurIPS 2022. arXiv:2205.11508
 - Balestriero, LeCun. LeJEPA: Provable and Scalable Self-Supervised Learning Without the Heuristics. arXiv:2511.08544
 - ==Klindt, LeCun, Balestriero. When Does LeJEPA Learn a World Model? arXiv:2605.26379==
-- ==Maes et al. LeWorldModel (2026)==
-- ==Liu, Suo, Jin, Ping, Iwasawa, Matsuo, Zhu. Temporally Centered SIGReg Improves Le World Model Representations for Robot Policy Learning (TC-LeWM). arXiv:2607.26924==
-- ==SPHERE-JEPA (uniform target on the sphere instead of Gaussian). arXiv:2605.26900==
-- ==Expanding SPHERE-JEPA (MMD, KSD, KL, heat kernel). arXiv:2606.17603==
-- ==Weak-SIGReg (sketch-space projection, covariance to identity). arXiv:2603.05924==
+- Maes et al. LeWorldModel: Stable End-to-End Joint-Embedding Predictive Architecture from Pixels. 2026. arXiv:2603.19312
+- ==Liu, Suo, Jin, Ping, Iwasawa, Matsuo, Zhu. Temporally Centered SIGReg Improves LeWorldModel Representations for Robot Policy Learning (TC-LeWM). arXiv:2607.26924==
+- Nicollier, Dunitz, Pic, Musé, Meinhardt-Llopis, Facciolo. SPHERE-JEPA: Spherical Prediction with Homogeneous Embeddings. 2026. arXiv:2605.26900
+- Nicollier, Meinhardt-Llopis, Dunitz, Pic, Musé, Facciolo. Expanding SPHERE-JEPA: A Family of Statistical Regularizers for the Hypersphere. 2026. arXiv:2606.17603
+- Akbar. Weak-SIGReg: Covariance Regularization for Stable Deep Learning. GRaM workshop at ICLR 2026. arXiv:2603.05924
 - ==Sobal, Jyothir S V, Jalagam, Carion, Cho, LeCun. Joint Embedding Predictive Architectures Focus on Slow Features. 2022. arXiv:2211.10831==
 - ==Strohm et al. Keeping JEPA World Models Plannable When Little of the Frame Moves. 2026. arXiv:2610.03137==
 - ==Littwin et al. How JEPA Avoids Noisy Features: The Implicit Bias of Deep Linear Self Distillation Networks. NeurIPS 2024. arXiv:2407.03475==
-- ==TDV (temporal differences). arXiv:2606.15956==
+- Daithankar, Gladstone, LeCun, Ji. You Don't Need Strong Assumptions: Visual Representation Learning via Temporal Differences (TDV). 2026. arXiv:2606.15956
 - ==Tian, Chen, Ganguli. Understanding Self-Supervised Learning Dynamics without Contrastive Pairs. ICML 2021. arXiv:2102.06810==
 - Caron et al. Emerging Properties in Self-Supervised Vision Transformers (DINO). ICCV 2021.
 - Oquab et al. DINOv2: Learning Robust Visual Features without Supervision. TMLR 2024.
@@ -1201,7 +1201,7 @@ The first order vanishes, so the collapsed state is a critical point. Take $u_i=
 - He et al. Masked Autoencoders Are Scalable Vision Learners. CVPR 2022.
 - Baevski et al. data2vec. ICML 2022.
 - Garrido et al. RankMe: Assessing the Downstream Performance of Pretrained Self-Supervised Representations by Their Rank. ICML 2023.
-- Lehner et al. Contrastive Tuning: A Little Help to Make Masked Autoencoders Forget (MAE-CT). AAAI 2024.
+- Lehner, Alkin, Fürst, Rumetshofer, Miklautz, Hochreiter. Contrastive Tuning: A Little Help to Make Masked Autoencoders Forget (MAE-CT). AAAI 2024. arXiv:2304.10520
 - Zhu, Penachio, Mukherjee, Jonelagadda. Spectral-Target Physical Latent Structuring for JEPA-Style World Models. arXiv:2609.04264
 
 ### Semi-supervised and downstream-guided SSL
@@ -1214,19 +1214,19 @@ The first order vanishes, so the collapsed state is a critical point. Take $u_i=
 - Chaudhry et al. Efficient Lifelong Learning with A-GEM. ICLR 2019.
 - Tishby, Pereira, Bialek. The Information Bottleneck Method. 1999.
 - Bialek, Nemenman, Tishby. Predictability, Complexity, and Learning. Neural Computation 2001.
-- ==MotionJEPA: Preventing Temporal Feature Collapse by Capturing Visual Changes in Latent Space (DISReg regularizer). arXiv:2609.23881==
+- Karmann, Li, Internò, Andreis, Klindt, Balestriero, Gu, Torr et al. MotionJEPA: Preventing Temporal Feature Collapse by Capturing Visual Changes in Latent Space (DISReg regularizer). 2026. arXiv:2609.23881
 - ==Zhai et al. S4L: Self-Supervised Semi-Supervised Learning. ICCV 2019. arXiv:1905.03670==
 - ==Assran et al. Semi-Supervised Learning of Visual Features by Non-Parametrically Predicting View Assignments with Support Samples (PAWS). ICCV 2021. arXiv:2104.13963==
 - ==Yu et al. Gradient Surgery for Multi-Task Learning (PCGrad). NeurIPS 2020. arXiv:2001.06782==
-- ==Amortised Invariance Learning for Contrastive Self-Supervision (AIL). arXiv:2302.12712==
-- ==In-Context Symmetries: Self-Supervised Learning through Contextual World Models (ContextSSL). arXiv:2405.18193==
+- Chavhan, Gouk, Stuehmer, Heggan, Yaghoobi, Hospedales. Amortised Invariance Learning for Contrastive Self-Supervision (AIL). ICLR 2023. arXiv:2302.12712
+- Gupta, Wang, Wang, Jaakkola, Jegelka. In-Context Symmetries: Self-Supervised Learning through Contextual World Models (ContextSSL). NeurIPS 2024. arXiv:2405.18193
 - Ke, Fanti. Learning What to Predict: Downstream-Guided Task Design for Continued Pretraining (V-pretraining). arXiv:2601.22108
-- Zakarias, Hansen, Tan. BiSSL: Enhancing the Alignment Between Self-Supervised Pretraining and Downstream Fine-Tuning via Bilevel Optimization. arXiv:2410.02387
-- Liu et al. Task-Customized Self-Supervised Pre-training with Scalable Dynamic Routing. arXiv:2205.13267
+- Zakarias, Hansen, Tan. BiSSL: Enhancing the Alignment Between Self-Supervised Pretraining and Downstream Fine-Tuning via Bilevel Optimization. TMLR 2026. arXiv:2410.02387
+- Liu, Han, Hong, Xu, Chen, Xu, Li. Task-Customized Self-Supervised Pre-training with Scalable Dynamic Routing. arXiv:2205.13267
 - Przewięźlikowski et al. Augmentation-aware Self-supervised Learning with Conditioned Projector (CASSLE). Knowledge-Based Systems, 2024. arXiv:2306.06082
 - Ericsson, Gouk, Hospedales. Why Do Self-Supervised Models Transfer? Investigating the Impact of Invariance on Downstream Tasks. arXiv:2111.11398
 - Purushwalkam, Gupta. Demystifying Contrastive Self-Supervised Learning: Invariances, Augmentations and Dataset Biases. NeurIPS 2020. arXiv:2007.13916
-- Kalibhat et al. Disentangling the Effects of Data Augmentation and Format Transform in Self-Supervised Learning of Image Representations. arXiv:2312.02205
+- Kalibhat, Morningstar, Bijamov, Liu, Singhal, Mansfield. Disentangling the Effects of Data Augmentation and Format Transform in Self-Supervised Learning of Image Representations. arXiv:2312.02205
 - ==Lee, Yao, Finn. Diversify and Disambiguate: Learning From Underspecified Data (DivDis). ICLR 2023. arXiv:2202.03418==
 - ==Wang, Chen, Xie, Fang, Lin. Task-Robust Pre-Training for Worst-Case Downstream Adaptation. NeurIPS 2023. arXiv:2306.12070==
 - ==Uzan, Weinberger. A representation-learning game for classes of prediction tasks. ICLR 2024. arXiv:2403.06971==
@@ -1256,7 +1256,7 @@ The first order vanishes, so the collapsed state is a critical point. Take $u_i=
 - Korchinski, Favero, Wyart. Learn from your own latents and not from tokens: A sample-complexity theory. arXiv:2605.27734
 - Hammoud et al. On Pretraining Data Diversity for Self-Supervised Learning. ECCV 2024. arXiv:2403.13808
 - Vélez García, Cazorla, Pomares. Escaping The Big Data Paradigm in Self-Supervised Representation Learning (SCOTT). Computer Vision and Image Understanding, 2026. arXiv:2502.18056
-- Yang et al. A Self-Supervised Paradigm for Data-Efficient Medical Foundation Model Pre-training: V-information Optimization Framework. arXiv:2408.07107
+- Yang, Zhang, Tan, Sun, Yan. A Self-Supervised Paradigm for Data-Efficient Medical Foundation Model Pre-training: V-information Optimization Framework. arXiv:2408.07107
 - Silverman. Density Estimation for Statistics and Data Analysis. Chapman and Hall, 1986.
 - Fukunaga, Hostetler. The estimation of the gradient of a density function, with applications in pattern recognition. IEEE Trans. Information Theory, 1975.
 - Jordan, Kinderlehrer, Otto. The variational formulation of the Fokker–Planck equation. SIAM J. Math. Analysis, 1998.
@@ -1269,11 +1269,11 @@ The first order vanishes, so the collapsed state is a critical point. Take $u_i=
 - Ronneberger, Fischer, Brox. U-Net: Convolutional Networks for Biomedical Image Segmentation. MICCAI 2015. arXiv:1505.04597
 - Isensee et al. nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation. Nature Methods 2021.
 - Zhou et al. Models Genesis. Medical Image Analysis 2021.
-- ==Xu et al. Swin MAE: Masked Autoencoders for Small Datasets. 2023.==
+- Xu, Dai, Liu, Chen, Liu, Shi, Liu. Swin MAE: Masked Autoencoders for Small Datasets. 2023. arXiv:2212.13805
 - Zontak, Irani. Internal Statistics of a Single Natural Image. CVPR 2011.
 - Shocher, Cohen, Irani. "Zero-Shot" Super-Resolution using Deep Internal Learning (ZSSR). CVPR 2018.
 - Glasner, Bagon, Irani. Super-Resolution from a Single Image. ICCV 2009.
-- ==Tirer, Giryes, Chun, Eldar. Deep Internal Learning: Deep Learning from a Single Input. IEEE Signal Processing Magazine 2024.==
+- Tirer, Giryes, Chun, Eldar. Deep Internal Learning: Deep Learning from a Single Input. IEEE Signal Processing Magazine 2024. arXiv:2312.07425
 - Pathak, Krähenbühl, Donahue, Darrell, Efros. Context Encoders: Feature Learning by Inpainting. CVPR 2016.
 - Noroozi, Favaro. Unsupervised Learning of Visual Representations by Solving Jigsaw Puzzles. ECCV 2016.
 - Vincent, Larochelle, Bengio, Manzagol. Extracting and Composing Robust Features with Denoising Autoencoders. ICML 2008.
@@ -1284,7 +1284,7 @@ The first order vanishes, so the collapsed state is a critical point. Take $u_i=
 - Olshausen, Field. Sparse coding with an overcomplete basis set: a strategy employed by V1? Vision Research 1997.
 - Coates, Ng, Lee. An Analysis of Single-Layer Networks in Unsupervised Feature Learning. AISTATS 2011.
 - Bruna, Mallat. Invariant Scattering Convolution Networks. TPAMI 2013.
-- Mallat. A Mathematical Theory of Deep Convolutional Neural Networks for Feature Extraction. arXiv:1512.06293
+- Wiatowski, Bölcskei. A Mathematical Theory of Deep Convolutional Neural Networks for Feature Extraction. IEEE Trans. Information Theory 2018. arXiv:1512.06293
 - Rahimi, Recht. Random Features for Large-Scale Kernel Machines. NIPS 2007.
 - Rahaman et al. On the Spectral Bias of Neural Networks. ICML 2019.
 - Genovese et al. Minimax Manifold Estimation. JMLR 2012.
@@ -1304,9 +1304,9 @@ The first order vanishes, so the collapsed state is a critical point. Take $u_i=
 - Thomas et al. Tensor Field Networks. 2018.
 - Batzner et al. E(3)-equivariant graph neural networks for data-efficient and accurate interatomic potentials (NequIP). Nature Communications 2022.
 - Yang et al. Generative Adversarial Symmetry Discovery (LieGAN). ICML 2023.
-- ==Mitchel et al. Neural Isometries: Taming Transformations for Equivariant ML. NeurIPS 2024.==
-- ==Park et al. Self-supervised Transformation Learning for Equivariant Representations. NeurIPS 2024.==
-- Equivariance by Contrast: Identifiable Equivariant Embeddings from Unlabeled Finite Group Actions. NeurIPS 2025. arXiv:2510.21706
+- ==Mitchel, Taylor, Sitzmann. Neural Isometries: Taming Transformations for Equivariant ML. NeurIPS 2024. arXiv:2405.19296==
+- ==Yu, Choi, Lee, Hong, Kim. Self-supervised Transformation Learning for Equivariant Representations. NeurIPS 2024. arXiv:2501.08712==
+- Schmidt, Schneider, Bethge. Equivariance by Contrast: Identifiable Equivariant Embeddings from Unlabeled Finite Group Actions. NeurIPS 2025. arXiv:2510.21706
 - Nickel, Kiela. Poincaré Embeddings for Learning Hierarchical Representations. NeurIPS 2017.
 - Gu et al. Learning Mixed-Curvature Representations in Product Spaces. ICLR 2019.
 
