@@ -41,4 +41,4 @@
 
 ## Инструменты
 
-- **Poogle.** Агент вызывает его только по прямой просьбе. Описания MCP-сервера переписаны в `~/VSCodeProjects/Poogle/Sources/Poogle/Services/MCPServer.swift`, приложение переустановлено 2026-10-08, `mcp__poogle` стоит в `permissions.ask`. Скрипт сборки запускать из корня репо Poogle, иначе `swift build` не находит `Package.swift`.
+- **Poogle.** Агент вызывает его только по прямой просьбе. Описания MCP-сервера переписаны в `~/VSCodeProjects/Poogle/Sources/Poogle/Services/MCPServer.swift`, приложение переустановлено 2026-10-08, `mcp__poogle` стоит в `permissions.ask`. Скрипт `script/build_and_run.sh` сам переходит в корень репо, его можно запускать из любой папки.
