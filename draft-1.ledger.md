@@ -52,6 +52,8 @@ Target: `draft-1.md`, whole file.
 - U5: "оси нефиксированности": used as "axes" of the moving target in §4.6, in English.
 - U6: "нулевого порядка — это к чему вообще относится?": answered in place, "a zero-order model of contrastive learning at the level of the embedding law" (§4.2) and the order paragraph of §1.2.
 - U7: goal of the work: "чётко определяет, где в какой теории есть конкретные условности и предположения и как они на одной карте друг с другом соотносятся ... проверить на практике, что из этого сходится, что нет, и предложить несколько своих методов, которые закрывают многие из этих вещей наиболее общим способом". Used in the last paragraph of §0.
+- U8: "вместо доказательств писать выводы. То есть именно каким образом мы к этому приходим, вместо того, чтобы писать, как это доказывается". Used in chapter 2: the step that leads to each proposition is in the text, the proofs are in Appendix A.1. Other chapters still carry inline proofs.
+- U9: chapter 9 "должен быть типа всякие варианты и информация внутри небольших сэмплов данных"; "SSL on 30 images" was a test setup and stays only as the running test case. Used in the chapter 9 title and structure.
 
 ## Corrections
 
@@ -100,6 +102,9 @@ Target: `draft-1.md`, whole file.
 - C21: bad: "embedding law", "target law". fix: "distribution" everywhere ($p_z$, $P_X$, target distribution), in text and figures.
   pattern: \b(embedding|target|data) law\b
 - C22 (global): KISS. The shortest wording that keeps the argument; more figures from real runs and redrawn paper schematics.
+- C23: bad: "## 9. SSL on 30 images", "## 10. Planned experiments". fix: a heading names the content the chapter holds, and a test setup is never a chapter title; chapter 10 says where each result goes.
+  pattern: SSL on 30 images
+- C24: figures come from the cited papers and from the PPS paper as well as from own runs; every caption ends with its source ("From X et al. (year)." or "From the PPS paper, Figure N.").
 
 ## Section map from the previous structure
 
@@ -121,10 +126,13 @@ Chapter 4 renumbering after the new theory papers (commit 454901b → next): 4.7
 - Notation: gap $g=q-p$; the predictor has no symbol, $\mathrm{pred}(z)$; generator $\gamma$ with $x=\gamma(c)$; easy feature $a$, useful feature $t$; Saunshi's gap $\delta$; CDNV $\nu$, directional $\tilde\nu$; data density $P$, model $Q$ (score matching, Gretton); noise $\xi$, step $\varepsilon$; linear map $M$ in Prop 5.3; task matrix $\Gamma$ with projection $\Pi=\Gamma\Gamma^+$; A-GEM gradients $u$ (task), $v$ (SSL); predictor $\hat y$ in Prop 6.4.
 - RandBit counts ($N=256$, $D=128$, $K=510$): whitening needs $2^b-1\ge128$, so $b=8$; instance discrimination needs $2^b\ge N$, so $b=8$; $K2^{-b}\approx2$ at $b=8$; VICReg's invariance and variance terms (weights 25, 25) hold with 16 codes. SIGReg below the untrained encoder at $b=6$ is left as a highlighted open point.
 
+- Figures 2-19 in order of appearance: 2 VICReg comparison, 3 BYOL, 4 Jing collapse, 5 Robinson shortcut, 6 PPS gradient-optimal, 7 Wang-Isola CIFAR-10 on $S^1$, 8 HaoChen graph, 9 PPS principle and circle check, 10 PPS temperature, 11 atlas, 12 InfoMin, 13 I-JEPA architectures, 14-15 RandBit, 16 ZSSR, 17 Asano single images, 18 MAE, 19 jigsaw. Paper figures live in `figures/papers/`, converted from the arXiv sources; the PPS ones from `Bandwidth Research/Research/paper/submissions/icomp-2026/figures/`.
+
 ## Next steps for the author
 
 - Fill highlighted claims after reading Tian 2022, Garrido 2023 duality conditions, Simon et al. 2023, Tan et al. 2024, Wang et al. 2022.
 - RandBit: three seeds near the thresholds, BYOL as the siamese row, guidance at the threshold, reconstruction control, sample-size knob, dimension and batch knobs for the counts of 7.2; MCL and adversarial views as the first remedies to try.
 - Read in full the abstract-level papers of 8.1 before removing their highlight.
 - Check whether task directions of trained encoders are nearly orthogonal (8.3), which decides whether $\Gamma$ composes as a sum.
+- Move the proofs of chapters 3-8 to Appendix A in the same way as chapter 2, once chapter 2 reads well.
 - Prove or drop Conjecture 4.18 with the anchor-drift experiment of 10.3.
