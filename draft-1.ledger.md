@@ -112,6 +112,8 @@ Target: `draft-1.md`, whole file.
 - C28 (user: "у всего должна быть причина, ПЕРЕД самим текстом"; "Причём здесь нижние слои? Ты как-то вводишь вообще это понятие?"): bad: "Asano, Rupprecht and Vedaldi match the first layers of a network trained on a million images" with layers never introduced. fix: every concept is introduced with what it is and why the argument needs it before it is used, and every claim or proposition is preceded by the reason it comes up and the step that leads to it. Proofs go to Appendix A, the derivation chain stays in the text (extends U8 to chapters 3-8).
 - C29 (user: "вопрос был вообще само искажение должно быть инвариантным или нет? ... либо случайный шум добавляем, либо конкретно там какой-то поворот на какой-то градус"): bad: 9.3 asked whether the representation should be invariant to a distortion. fix: 9.3 contrasts a random distortion whose parameter nobody tracks (noise, random crop) with a specific transformation whose parameter is known (rotation by 90°), and says what each lets the loss ask for.
 - C30 (user: "а всем изображениям добавь подписи"): every figure has a visible caption line under the image; the alt text alone may not render.
+- C31 (user: "как ты вообще определяешь эти частоты ... на уровне графа датасета или батча, или на уровне самого изображения?"): bad: "the weak cuts of this graph follow low frequencies, not objects". fix: every spectrum, frequency or eigenvector names its object (Fourier modes of one image, principal components of the dataset covariance, the graph $G$ on the dataset, the matrix of one batch), and a link between two of them gets its reason (stationary image statistics make principal components close to Fourier modes, 9.3).
+- C32 (user: "Все мои идеи ... надо записывать ... в эксперименты, чтобы протестировать"): every idea of the author that the text can test becomes a highlighted row in chapter 10 and, where it belongs to an argument, a highlighted sentence in that chapter. Derivable claims of this work stay highlighted until their proof is in Appendix A. The running list with status is `notes/ideas.md`.
 
 ## Section map from the previous structure
 
@@ -143,6 +145,6 @@ Chapter 4 renumbering after the new theory papers (commit 454901b → next): 4.7
 - RandBit: three seeds near the thresholds, BYOL as the siamese row, guidance at the threshold, reconstruction control, sample-size knob, dimension and batch knobs for the counts of 7.2; MCL and adversarial views as the first remedies to try.
 - Read in full the abstract-level papers of 8.1 before removing their highlight.
 - Check whether task directions of trained encoders are nearly orthogonal (8.3), which decides whether $\Gamma$ composes as a sum.
-- Verify the Tirer et al. reference, still highlighted.
+- Decide on the references cited nowhere in the text: Ericsson et al. CVPR 2021 and the SPM review, Shwartz-Ziv and LeCun, Bansal, Kaplun and Barak, Korchinski et al., SCOTT, Hinton's transforming autoencoders.
 - The remaining `and-chain?` flags are lists, propositions with several assumptions and captions; the remaining `count-announce` flags refer back to the three families of chapter 0.
 - Prove or drop Conjecture 4.18 with the anchor-drift experiment of 10.3.

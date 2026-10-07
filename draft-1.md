@@ -463,7 +463,7 @@ The density-estimation argument has a classical counterpart, which transfers onl
 
 At large $D$ the dependence on $n$ nearly vanishes and the data scale $\hat s$ dominates, which agrees with taking the scale from the positive cluster. The contrastive loss has no analogue of this error criterion. ==What the InfoNCE kernel width minimizes, the contrastive analogue of AMISE, is open.==
 
-These arguments give a rule, which the PPS paper tests in training. With SimCLR and ResNet-18 on CIFAR-10, CIFAR-100 and ImageNet-100, PPS reaches the useful regime of a tuned constant temperature without a search. On CIFAR-10 it matches the best constant (probe 75.62, kNN 80.74) and the adaptive schedules of Kukleva, Huang, Manna and Qiu. On the larger datasets it stays competitive (Figure 10). In the rigour ladder, the identity is exact, the contraction of $p$ is a Lyapunov result inside a reduced model whose assumptions were checked empirically, the safety condition rests on a modelled sign structure for $q$, and $\sqrt p$ is a heuristic supported by the arguments above. The model locates a safe region and leaves the optimum inside it to the encoder, whose effect on $q$ has no closed form. All runs used one seed, one architecture and one batch size. ==Whether PPS transfers to other seeds, architectures, batch sizes, methods and domains is untested (10.2). Whether the schedule changes convergence speed as well as the final accuracy is unmeasured.==
+These arguments give a rule, which the PPS paper tests in training. With SimCLR and ResNet-18 on CIFAR-10, CIFAR-100 and ImageNet-100, PPS reaches the useful regime of a tuned constant temperature without a search. On CIFAR-10 it matches the best constant (probe 75.62, kNN 80.74) and the adaptive schedules of Kukleva, Huang, Manna and Qiu. On the larger datasets it stays competitive (Figure 10). In the rigour ladder, the identity is exact, the contraction of $p$ is a Lyapunov result inside a reduced model whose assumptions were checked empirically, the safety condition rests on a modelled sign structure for $q$, and $\sqrt p$ is a heuristic supported by the arguments above. The model locates a safe region and leaves the optimum inside it to the encoder, whose effect on $q$ has no closed form. All runs used one seed, one architecture and one batch size. ==Whether PPS transfers to other seeds, architectures, batch sizes, methods and domains is untested (10.2). Whether the schedule changes convergence speed as well as the final accuracy is unmeasured. The loss has many minimizers of equal value that differ downstream (Saunshi et al. 2022, 4.3), so a schedule can change which of them training reaches as well as how fast it gets there.==
 
 ![Figure 10](figures/papers/pps_temperature.png)
 
@@ -663,6 +663,10 @@ Among the sources, the relation is the one every SSL method sets by hand, throug
 
 **Figure 12.** InfoMin. (a) Two views $v_1$ and $v_2$ of an image $x$ pass through encoders $f_1$ and $f_2$. (b) Views that share more information $I(v_1;v_2)$ than the task information $I(x;y)$ keep excess information, views that share less miss task information, and transfer performance is highest at equality. From Tian et al. (2020).
 
+Besides augmentations, the encoder itself can supply the relation. NNCLR (Dwibedi et al.) replaces the positive of an anchor with its nearest neighbour in a queue of past embeddings. Mean Shift (Koohpayegani, Tejankar and Pirsiavash) does the same in a BYOL-style method with a target network and no negatives. Both still draw two augmented views, so the augmentations keep fixing part of $G$. Without augmentations, $G$ becomes the nearest-neighbour graph of the current encoder, which moves with the encoder like the target of 4.6. ==In a partition where every point has its neighbours inside its own part, the attraction pulls each point toward its part and the repulsion pushes it away from the others, so the neighbour graph stays the same. Every such partition is a fixed point of training, a semantic one and an arbitrary one alike, so the loss prefers neither. Points whose neighbours lie in more than one part can still move. Where they go depends on the initial graph. The final quality is therefore predicted to follow the purity of the nearest-neighbour graph of the initial encoder (10.1).== An untrained network already links similar inputs, since its features are continuous functions of the input. DeepCluster (Caron et al. 2018) relies on this. It clusters the features of the current network with k-means and trains on the clusters as labels, starting from random weights.
+
+The other extreme drops the positives altogether. A loss with repulsion alone is minimized by any evenly spread arrangement of the embeddings, so it links no inputs. Whatever grouping survives training then comes from the architecture alone. ==Since the repulsion pushes neighbours apart, it may also erase the grouping of the untrained network (10.1).==
+
 ### 6.3. A prediction loss learns the conditional mean of the target
 
 Augmentations build $G$ from two views of one input. JEPA, MAE and data2vec replace the second view with a target to predict. What a squared prediction loss learns then follows from splitting its error. The squared error of any predictor is the error of the conditional mean plus the squared distance between the predictor and the conditional mean, because the cross term has zero mean given the context.
@@ -858,6 +862,12 @@ The joint-embedding methods of chapters 2-5 are invariant by construction. Their
 
 In the terms of 6.4, an invariant loss is a weighted graph on the inputs whose edges say which inputs should coincide. An equivariant loss also needs the operator $R_{ij}$ of Proposition 6.5 on each edge, which says how the embedding changes along it. The parameter of a specific transformation supplies this operator. Random noise supplies none, so it enters a joint-embedding loss only as a source of invariance.
 
+As the view of a joint-embedding loss, with two noisy copies of one image as the positive pair, noise therefore acts only through the graph $G$ (2.2) that these views define. What the encoder learns then depends on which images this graph links. ==Two noisy copies of different images $x$ and $x'$ are hard to tell apart when the noise covers the difference between the images. For Gaussian noise of width $\sigma$ the overlap of the two view distributions, their Bhattacharyya coefficient, is $e^{-\|x-x'\|^2/8\sigma^2}$, so $G$ is a Gaussian kernel graph on pixel distances.== The pixel distance between two images is dominated by the directions in which the data vary most, the top principal components of the data covariance. This spectrum belongs to the dataset, whereas spatial frequencies belong to a single image. The two meet for natural images, whose statistics hardly depend on the position in the image, so their principal components are close to the Fourier modes of an image. Most of their variance lies at low spatial frequencies (Field). ==A loss invariant to pixel noise therefore groups images with a similar overall layout of brightness and colour, which matches the classes only where the class decides the layout. The encoder can also satisfy the invariance by smoothing its input, an easy feature in the sense of 3.5.==
+
+Balestriero and LeCun (2024) prove the matching result for reconstruction. A denoising loss under additive Gaussian noise spends its capacity on the top-variance subspace, which carries little of what perception tasks need, whereas masking makes the network use the other directions. Noise helps when it acts in another space. Chen, Liu, Xie and He reduce a diffusion model step by step to a denoising autoencoder and find that the features stay good as long as the noise is added in a low-dimensional latent space. Xiang et al. read features from the intermediate layers of a diffusion model at a chosen noise level and reach linear-probe accuracy comparable to contrastive methods and MAE. ==If $G$ alone sets what is learned, an encoder invariant to pixel noise reaches about the kNN accuracy of images projected on their top principal components, whereas latent noise and masking exceed it (10.6).==
+
+Masking and noise differ in the scale of the structure they destroy more than in kind. A mask replaces a block of pixels with a constant, whereas pixel noise changes each value independently. A block filled with random colour is therefore noise correlated over the block. Black pixels dropped at random are a mask at the scale of one pixel. Diffusion models already sweep this scale with the noise level, since at large noise only the components of largest variance stay above the noise, which for images are the low frequencies (Rissanen, Heinonen and Solin). Cold Diffusion (Bansal et al. 2023) replaces the noise with blur, masking and other degradations and still trains a generator. ==Invariance to corruptions of several sizes, with a separate embedding for each size, would give a representation with one level per scale. Whether such levels separate tasks of different scale is untested (10.6).==
+
 ### 9.4. Thirty images
 
 The distortion, the size of the patterns and the fate of the parameter together decide what a sample of thirty unlabeled images can teach. The test case is a small network trained from scratch on these images, whose frozen encoder is read by a linear probe trained on a large labeled set. This setup separates the quality of the representation from the scarcity of labels, since a probe that stays bad with unlimited labels points to the geometry of the encoder.
@@ -896,7 +906,9 @@ Most propositions of chapters 2-6 hold under assumptions that a trained network 
 | ==Ridge probe against anisotropy==                  | probe on embeddings of varied anisotropy at fixed trace                                            | Proposition 5.2      |
 | ==Free particles against a network==                | the same loss on free embeddings and on an encoder; spectrum of $\Theta$ and final geometry       | Proposition 4.1      |
 | ==Sign of $d\mathcal L/dt$ under PPS==            | loss trajectory and $\Phi=p-p_{\min}$ under a fixed and an adaptive temperature                   | Proposition 3.5, 4.5 |
-| ==Convergence under $\tau$ schedules==            | epochs to a fixed probe accuracy for constant and adaptive $\tau$                                 | 4.5                  |
+| ==Convergence under $\tau$ schedules==            | epochs to a fixed probe accuracy and final accuracy for constant, rising, falling, cosine (Kukleva) and PPS $\tau$ ending at one value | 4.5, 5.2             |
+| ==Neighbour positives without augmentations==     | positives from the nearest-neighbour graph of the current encoder, with InfoNCE and with a BYOL-style target; random and pretrained initialization; neighbour purity at initialization against the final probe | 6.2                  |
+| ==Repulsion without positives==                   | uniformity alone against the untrained encoder, kNN and probe                                      | 6.2                  |
 | ==Quality proxies against known factors==             | linear probe and retrieval against similarity of known factors on a toy                            | 6.5                  |
 | ==Invariant, random and equivariant augmentations== | three types on one downstream task                                                                 | 6.2                  |
 | ==Representation trajectory of SSL and supervised learning==                       | SSL against supervised learning under a moving target                                              | 3.8                  |
@@ -914,6 +926,7 @@ The PPS runs used one seed, one architecture and one batch size (4.5), so the fo
 | ==Transfer protocols==                | collect the transfer protocols of SSL papers                                  | how protocols differ                                               |
 | ==Measure $q^*(\sigma)$==           | dynamics of the inter-input coordinate at several fixed $\sigma$             | closing the model of 4.5; a schedule from safe to optimal          |
 | ==Width rule in target regularizers== | Epps-Pulley weight width and heat-kernel time from the positive-pair distance | hypothesis of 2.5                                                  |
+| ==Final width from packing==          | final $\tau$ from the spacing of $N$ clusters spread evenly on $S^{D-1}$, a larger start, a fixed decay | whether a schedule set by design requirements matches PPS (4.5)    |
 
 ### 10.3. The three families compared in one setting
 
@@ -921,7 +934,7 @@ These runs compare the families of chapter 2 in one setting where their common f
 
 | Experiment                                      | What                                                                                                                                        | Checks                                  |
 | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
-| ==Log-drift against MMD-drift==             | InfoNCE, SIGReg and SPHERE-JEPA on one sphere toy; compare the fields                                                                       | Propositions 2.4-2.6                    |
+| ==Log-drift against MMD-drift==             | InfoNCE, SIGReg and SPHERE-JEPA on one sphere toy; compare the fields; Epps-Pulley against $\mathrm{MMD}^2$ on samples                     | Propositions 2.4-2.6                    |
 | ==Sample- against dimension-contrastive==   | the two penalties of Proposition 2.10 under the same normalization; probe and geometry                                                      | Proposition 2.10                        |
 | ==Siamese as implicit repulsion==           | estimate the effective $\mu^-$ of BYOL from its update and compare with explicit repulsion                                                 | 2.4                                     |
 | ==Collapse and temperature predicted by Wang-Isola, Huang, PPS and LeJEPA==            | collapse or $\tau$ through Wang-Isola, Huang and PPS, LeJEPA, and the three explanations of BYOL; where predictions differ                 | 5.4, 6.6                                |
@@ -982,6 +995,8 @@ The small-sample case of chapter 9 has its own protocol. It uses 30 images and m
 | ==Small-data methods across domains==                        | masking, internal learning, JEPA under one protocol                                      | 9.1                                                                           |
 | ==Distortion type==                                          | masking, permutation and noise as the restoration task on the same images                | which distortion gives the best linear probe (9.1)                            |
 | ==Invariant against equivariant==                            | one distortion as a joint-embedding view and as a predicted parameter                    | whether keeping the parameter helps a task that needs it (9.3, 9.4)           |
+| ==Noise against masking as a view==                          | pixel noise, latent noise, black masks and random-colour masks as joint-embedding views; kNN of pixels projected on top principal components as the baseline | whether pixel noise stops at the principal-component baseline (9.3)           |
+| ==Corruption at several scales==                             | masks and correlated noise of several block sizes, one embedding per size, a probe per embedding on tasks of different scale | whether one level per scale separates the tasks (9.3)                         |
 | ==Patches of one image against many images==                 | equal numbers of patches from one image and from 30 images                               | whether repetition inside an image replaces more images (9.2)                 |
 
 Beyond the table, chapter 9 names further variants: wavelet scattering; patch k-means or sparse coding; InfoNCE, DCL and a graph $G$ from crops, time or dropout; Deep Image Prior on a 3D render; a 4-dimensional bottleneck with a shared transformation operator as an identifiability toy; LieGAN and a version space.
@@ -1143,6 +1158,8 @@ The first order vanishes, so the collapsed state is a critical point. Take $u_i=
 - Positive-Pair Distance Schedules Temperature in Contrastive Learning Without a Grid Search. ICOMP 2026 (own work).
 - He et al. Momentum Contrast for Unsupervised Visual Representation Learning (MoCo). CVPR 2020.
 - Dwibedi et al. With a Little Help from My Friends: Nearest-Neighbor Contrastive Learning of Visual Representations (NNCLR). ICCV 2021.
+- Koohpayegani, Tejankar, Pirsiavash. Mean Shift for Self-Supervised Learning. ICCV 2021. arXiv:2105.07269
+- Caron, Bojanowski, Joulin, Douze. Deep Clustering for Unsupervised Learning of Visual Features (DeepCluster). ECCV 2018. arXiv:1807.05520
 - Caron et al. Unsupervised Learning of Visual Features by Contrasting Cluster Assignments (SwAV). NeurIPS 2020.
 - Luthra, Yang, Galanti. Self-Supervised Contrastive Learning is Approximately Supervised Contrastive Learning. NeurIPS 2025. arXiv:2506.04411
 - ==Xiao, Wang, Efros, Darrell. What Should Not Be Contrastive in Contrastive Learning (LooC). ICLR 2021. arXiv:2008.05659==
@@ -1182,6 +1199,7 @@ The first order vanishes, so the collapsed state is a critical point. Take $u_i=
 - Bardes, Ponce, LeCun. VICRegL: Self-Supervised Learning of Local Visual Features. NeurIPS 2022.
 - Balestriero, LeCun. Contrastive and Non-Contrastive Self-Supervised Learning Recover Global and Local Spectral Embedding Methods. NeurIPS 2022. arXiv:2205.11508
 - Balestriero, LeCun. LeJEPA: Provable and Scalable Self-Supervised Learning Without the Heuristics. arXiv:2511.08544
+- Balestriero, LeCun. Learning by Reconstruction Produces Uninformative Features For Perception. ICML 2024. arXiv:2402.11337
 - ==Klindt, LeCun, Balestriero. When Does LeJEPA Learn a World Model? arXiv:2605.26379==
 - Maes et al. LeWorldModel: Stable End-to-End Joint-Embedding Predictive Architecture from Pixels. 2026. arXiv:2603.19312
 - ==Liu, Suo, Jin, Ping, Iwasawa, Matsuo, Zhu. Temporally Centered SIGReg Improves LeWorldModel Representations for Robot Policy Learning (TC-LeWM). arXiv:2607.26924==
@@ -1287,6 +1305,7 @@ The first order vanishes, so the collapsed state is a critical point. Take $u_i=
 - Wiatowski, Bölcskei. A Mathematical Theory of Deep Convolutional Neural Networks for Feature Extraction. IEEE Trans. Information Theory 2018. arXiv:1512.06293
 - Rahimi, Recht. Random Features for Large-Scale Kernel Machines. NIPS 2007.
 - Rahaman et al. On the Spectral Bias of Neural Networks. ICML 2019.
+- Field. Relations between the statistics of natural images and the response properties of cortical cells. Journal of the Optical Society of America A, 1987.
 - Genovese et al. Minimax Manifold Estimation. JMLR 2012.
 
 ### Graphs, equivariance, hierarchy
@@ -1317,6 +1336,10 @@ The first order vanishes, so the collapsed state is a critical point. Take $u_i=
 - Hyvärinen. Estimation of Non-Normalized Statistical Models by Score Matching. JMLR 2005.
 - Vincent. A Connection Between Score Matching and Denoising Autoencoders. Neural Computation 2011.
 - Song, Ermon. Generative Modeling by Estimating Gradients of the Data Distribution. NeurIPS 2019.
+- Chen, Liu, Xie, He. Deconstructing Denoising Diffusion Models for Self-Supervised Learning (l-DAE). ICLR 2025. arXiv:2401.14404
+- Xiang, Yang, Huang, Wang. Denoising Diffusion Autoencoders are Unified Self-supervised Learners (DDAE). ICCV 2023. arXiv:2303.09769
+- Rissanen, Heinonen, Solin. Generative Modelling With Inverse Heat Dissipation. ICLR 2023. arXiv:2206.13397
+- Bansal, Borgnia, Chu, Li, Kazemi, Huang, Goldblum, Geiping, Goldstein. Cold Diffusion: Inverting Arbitrary Image Transforms Without Noise. NeurIPS 2023. arXiv:2208.09392
 - Ho, Jain, Abbeel. Denoising Diffusion Probabilistic Models. NeurIPS 2020.
 - Song et al. Score-Based Generative Modeling through Stochastic Differential Equations. ICLR 2021.
 - Gretton, Wenliang, Galashov, Thornton, De Bortoli, Doucet. On the Wasserstein Gradient Flow Interpretation of Drifting Models. arXiv:2605.05118
