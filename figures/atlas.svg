@@ -15,13 +15,13 @@
 <text x="28" y="531.5" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="start" font-weight="bold" fill="#666666">Control</text>
 <rect x="20" y="541" width="968" height="27" fill="#e5f3f3" stroke="#ffffff" stroke-width="2"/>
 <text x="28" y="558.5" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="start" font-weight="bold" fill="#2d7f80">Use</text>
-<text x="100" y="207.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#222">data law P<tspan baseline-shift="sub" font-size="75%">X</tspan></text>
+<text x="100" y="207.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#222">data distribution P<tspan baseline-shift="sub" font-size="75%">X</tspan></text>
 <text x="100" y="234.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#222">relation G (Ā, 𝒯)</text>
 <text x="100" y="261.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#222">parameters θ</text>
 <text x="100" y="288.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#222">representation h</text>
 <text x="100" y="315.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#222">embedding z</text>
 <text x="100" y="342.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#222">batch Z (Gram, covariance)</text>
-<text x="100" y="369.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#222">embedding law p<tspan baseline-shift="sub" font-size="75%">z</tspan></text>
+<text x="100" y="369.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#222">embedding distribution p<tspan baseline-shift="sub" font-size="75%">z</tspan></text>
 <text x="100" y="396.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#222">order 0: value, minimizers</text>
 <text x="100" y="423.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#222">order 1: drift −∇<tspan baseline-shift="sub" font-size="75%">z</tspan>L</text>
 <text x="100" y="450.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal" fill="#222">order 2: curvature</text>
@@ -141,7 +141,7 @@
 <path d="M831.5,359.0 L838.0,365.5 L831.5,372.0 L825.0,365.5 z" fill="#c0662b"/>
 <circle cx="820.5" cy="554.5" r="5.5" fill="#222"/>
 <circle cx="831.5" cy="554.5" r="5" fill="#fff" stroke="#3d6ea8" stroke-width="1.8"/>
-<text x="830.0" y="578" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="end" font-weight="bold" fill="#2f7d3a" transform="rotate(-60 830.0 578)">target law</text>
+<text x="830.0" y="578" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="end" font-weight="bold" fill="#2f7d3a" transform="rotate(-60 830.0 578)">target distribution</text>
 <text x="866.0" y="182" font-family="Helvetica, Arial, sans-serif" font-size="11.5" text-anchor="start" font-weight="normal" fill="#222" transform="rotate(-60 866.0 182)">InfoMin (6.3)</text>
 <circle cx="856.5" cy="230.5" r="5.5" fill="#222"/>
 <path d="M867.5,224.0 L874.0,230.5 L867.5,237.0 L861.0,230.5 z" fill="#c0662b"/>

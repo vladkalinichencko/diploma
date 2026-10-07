@@ -9,8 +9,8 @@
 <rect x="20" y="160" width="180" height="240" rx="10" fill="#f6efe0" stroke="#b08a3e" stroke-width="1.5"/>
 <text x="24" y="153" font-family="Helvetica, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="bold" fill="#b08a3e">Data</text>
 <rect x="35" y="178" width="150" height="46" rx="6" fill="#ffffff" stroke="#b08a3e" stroke-width="1.2"/>
-<text x="110.0" y="197.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#222">data law P<tspan baseline-shift="sub" font-size="75%">X</tspan></text>
-<text x="110.0" y="212.5" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#222">inputs x</text>
+<text x="110.0" y="197.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#222">data distribution</text>
+<text x="110.0" y="212.5" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#222">P<tspan baseline-shift="sub" font-size="75%">X</tspan>, inputs x</text>
 <rect x="35" y="244" width="150" height="140" rx="6" fill="#ffffff" stroke="#b08a3e" stroke-width="1.2"/>
 <text x="110.0" y="288.0" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#222">relation G</text>
 <text x="110.0" y="303.0" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#222">augmentations T</text>
@@ -30,7 +30,7 @@
 <text x="365.0" y="261.5" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#222">repr.</text>
 <rect x="410" y="225" width="80" height="50" rx="6" fill="#ffffff" stroke="#3d6ea8" stroke-width="1.2"/>
 <text x="450.0" y="246.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#222">projector</text>
-<text x="450.0" y="261.5" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#222">g<tspan baseline-shift="sub" font-size="75%">θ</tspan></text>
+<text x="450.0" y="261.5" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#222">h → z</text>
 <rect x="505" y="225" width="64" height="50" rx="6" fill="#ffffff" stroke="#3d6ea8" stroke-width="1.2"/>
 <text x="537.0" y="246.5" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#222">z</text>
 <text x="537.0" y="261.5" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" font-weight="normal" fill="#222">embed.</text>
@@ -47,7 +47,7 @@
 <rect x="610" y="160" width="210" height="240" rx="10" fill="#e7f3ea" stroke="#3f8a55" stroke-width="1.5"/>
 <text x="614" y="153" font-family="Helvetica, Arial, sans-serif" font-size="13" text-anchor="start" font-weight="bold" fill="#3f8a55">Sample</text>
 <rect x="620" y="172" width="190" height="218" rx="6" fill="#f4faf5" stroke="#3f8a55" stroke-width="1.2" stroke-dasharray="5 4"/>
-<text x="630" y="366" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="start" font-weight="bold" fill="#3f8a55">embedding law p<tspan baseline-shift="sub" font-size="75%">z</tspan></text>
+<text x="630" y="366" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="start" font-weight="bold" fill="#3f8a55">embedding distribution p<tspan baseline-shift="sub" font-size="75%">z</tspan></text>
 <text x="630" y="382" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="start" font-weight="normal" fill="#3f8a55">limit N, K → ∞</text>
 <rect x="635" y="186" width="160" height="150" rx="6" fill="#ffffff" stroke="#3f8a55" stroke-width="1.2"/>
 <text x="715" y="204" font-family="Helvetica, Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#222">batch Z, N × D</text>

@@ -96,7 +96,7 @@ def system():
                                      "adaptive schedules: τ computed from the batch"], "Control"))
 
     b.append(frame(20, 160, 180, 240, "Data"))
-    b.append(box(35, 178, 150, 46, ["data law P_{X}", "inputs x"], "Data"))
+    b.append(box(35, 178, 150, 46, ["data distribution", "P_{X}, inputs x"], "Data"))
     b.append(box(35, 244, 150, 140, ["relation G", "augmentations T", "graph W, Ā", "two-view operator 𝒯",
                                      "positive pairs (x, x⁺)"], "Data"))
     b.append(arrow([(110, 224), (110, 242)]))
@@ -106,7 +106,7 @@ def system():
     b.append('<polyline points="240,212 240,206 490,206 490,212" fill="none" stroke="#3d6ea8" stroke-width="1.4"/>')
     b.append(box(240, 225, 80, 50, ["encoder", "f_{θ}"], "Network"))
     b.append(box(335, 225, 60, 50, ["h", "repr."], "Network"))
-    b.append(box(410, 225, 80, 50, ["projector", "g_{θ}"], "Network"))
+    b.append(box(410, 225, 80, 50, ["projector", "h → z"], "Network"))
     b.append(box(505, 225, 64, 50, ["z", "embed."], "Network"))
     b.append(arrow([(320, 250), (333, 250)]))
     b.append(arrow([(395, 250), (408, 250)]))
@@ -117,7 +117,7 @@ def system():
 
     b.append(frame(610, 160, 210, 240, "Sample"))
     b.append(rect(620, 172, 190, 218, fill="#f4faf5", stroke="#3f8a55", dash=True))
-    b.append(text(630, 366, "embedding law p_{z}", size=12, weight="bold", color="#3f8a55"))
+    b.append(text(630, 366, "embedding distribution p_{z}", size=11, weight="bold", color="#3f8a55"))
     b.append(text(630, 382, "limit N, K → ∞", size=11, color="#3f8a55"))
     b.append(rect(635, 186, 160, 150, fill="#ffffff", stroke="#3f8a55"))
     b.append(text(715, 204, "batch Z, N × D", size=12, anchor="middle", weight="bold"))
@@ -158,13 +158,13 @@ def system():
 
 
 ROWS = [
-    ("Data", "data", "data law P_{X}"),
+    ("Data", "data", "data distribution P_{X}"),
     ("Data", "rel", "relation G (Ā, 𝒯)"),
     ("Network", "theta", "parameters θ"),
     ("Network", "h", "representation h"),
     ("Network", "z", "embedding z"),
     ("Sample", "batch", "batch Z (Gram, covariance)"),
-    ("Sample", "law", "embedding law p_{z}"),
+    ("Sample", "law", "embedding distribution p_{z}"),
     ("Objective", "o0", "order 0: value, minimizers"),
     ("Objective", "o1", "order 1: drift −∇_{z}L"),
     ("Objective", "o2", "order 2: curvature"),
@@ -198,7 +198,7 @@ COLS = [
      "bound, B(F) estimate", "measure"),
     ("tasks", "NSCL (4.8)", dict(o0="c", z="m", task="ca", theta="a"), "bound", "bound"),
     ("tasks", "directional CDNV", dict(task="c", h="m", data="a"), "bound, Ṽ estimate", "measure"),
-    ("tasks", "LeJEPA, SPHERE-JEPA", dict(task="ca", law="cm"), "target law", "rule"),
+    ("tasks", "LeJEPA, SPHERE-JEPA", dict(task="ca", law="cm"), "target distribution", "rule"),
     ("tasks", "InfoMin (6.3)", dict(rel="cm", task="a"), "principle, needs y", "explain"),
     ("instruments", "RankMe", dict(batch="c"), "measure", "measure"),
     ("instruments", "Fang uniformity", dict(batch="c"), "measure", "measure"),

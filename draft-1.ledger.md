@@ -10,7 +10,7 @@ Target: `draft-1.md`, whole file.
 - Math syntax: `$...$` and `$$...$$` in Markdown.
 - Language and register: English, formal, single author, so no "we" and no "I" in the text; the work and its objects are the subjects.
 - Structure: hierarchy and sequence first. Every section opens by saying why it is there and how it follows from the previous one. Headings alone must read as a plan of the work.
-- Highlights: `==...==` marks what is not done, not read, not checked, or open. Proven statements with proofs in the text stay plain.
+- Highlights: `==...==` marks what is not done, not read, not checked, or open, and every connecting claim of this work that no cited paper states. Proven statements with proofs in the text stay plain; own propositions carry "(this work)" in their label.
 
 ## Sources
 
@@ -51,6 +51,7 @@ Target: `draft-1.md`, whole file.
 - U4: Wang-Isola "a very cool and influential paper" that "still fails to cover all properties of original infonce loss": used in §4.2 opening, in register.
 - U5: "оси нефиксированности": used as "axes" of the moving target in §4.6, in English.
 - U6: "нулевого порядка — это к чему вообще относится?": answered in place, "a zero-order model of contrastive learning at the level of the embedding law" (§4.2) and the order paragraph of §1.2.
+- U7: goal of the work: "чётко определяет, где в какой теории есть конкретные условности и предположения и как они на одной карте друг с другом соотносятся ... проверить на практике, что из этого сходится, что нет, и предложить несколько своих методов, которые закрывают многие из этих вещей наиболее общим способом". Used in the last paragraph of §0.
 
 ## Corrections
 
@@ -88,6 +89,17 @@ Target: `draft-1.md`, whole file.
   pattern: —
 - C13: bad: "Wang and Isola is a zero-order model" without saying zero order of what. fix: every claim names its object (embedding law, individual embeddings, batch, loss, parameters or neurons) inside the sentence, without a separate sentence for it.
   rule: each statement carries its level from the table of 1.2; a symbol has one meaning in the whole text ($h$ is only the representation).
+- C14: bad: "Three theories, one question" (10.3). fix: a heading says what the section contains, with as many spoilers as fit; no pathos, no wordplay.
+- C15: bad: Kernel ISOMAP, CDNV, kernel $\Theta$ used before any gloss; paragraphs with no link to the previous one. fix: a term is explained by its mechanism at first mention, and each paragraph opens from the previous one.
+- C16: bad: $g$ for the gap, the predictor, the generator and the encoder; $G_T$ beside the graph $G$. fix: one symbol per object across the text, as few subscripts as possible (see Decisions).
+- C17: bad: a proposition with no source. fix: every proposition and proof names where it comes from, "(Author)", "(after Author)" or "(this work)".
+- C18: bad: "To understand a method here means to predict ..." in §0. fix: no rules for the writer inside the text; §0 states the goal in U7.
+- C19: bad: "easy features are learned first" with "easy" undefined. fix: a vague adjective gets its operational meaning at first use (3.5).
+- C20: bad: ", and it answers through one object." fix: no announcing or summarizing tails that add no content.
+  pattern: answers through one object
+- C21: bad: "embedding law", "target law". fix: "distribution" everywhere ($p_z$, $P_X$, target distribution), in text and figures.
+  pattern: \b(embedding|target|data) law\b
+- C22 (global): KISS. The shortest wording that keeps the argument; more figures from real runs and redrawn paper schematics.
 
 ## Section map from the previous structure
 
@@ -104,8 +116,9 @@ Chapter 4 renumbering after the new theory papers (commit 454901b → next): 4.7
 - MotionJEPA ball NMSE: 1.001 for SIGReg (LeWM) against 0.005 for DISReg in 7.4; 1.26 for the forward-only baseline in 8.5. Each number names its baseline.
 - Two-view operator: $\mathcal T=\mathcal D^{-1}W$, same eigenvalues as $\bar A$, eigenfunctions $\psi=\mathcal D^{-1/2}u$. Luthra et al. do not link it to HaoChen; the link is this work's.
 - Zimmermann and Locatello: latents are $c$, the encoder is $f$, so $z$ and $h$ keep their meaning.
-- Symbols: Silverman's bandwidth is $\sigma$; Cheeger's conductance is $\mathrm{cond}(G)$; a learned edge operator is $\mathcal R(x_i,x_j)$.
+- Symbols: Silverman's bandwidth is $\sigma$; Cheeger's conductance is $\mathrm{cond}_k(G)$ for $k$ parts; a learned edge operator is $\mathcal R(x_i,x_j)$.
 - Numbers checked against the papers: Luthra 2026 median absolute difference below 0.05 is $\hat B$ against its label-free spectral reconstruction; Zhu et al. one-ball planning at $H=4$ goes from 1.2% to 90.0%, and Spearman $\rho$ is $-0.0008$ (controlled ball) against $0.40$ (environment ball); Gretton's $\tau=2\sigma^2$; NSCL gap 0.60/0.007 nats at $\tau=1$ and 7.8/3.1 at $\tau=0.2$ for 10/1000 classes.
+- Notation: gap $g=q-p$; the predictor has no symbol, $\mathrm{pred}(z)$; generator $\gamma$ with $x=\gamma(c)$; easy feature $a$, useful feature $t$; Saunshi's gap $\delta$; CDNV $\nu$, directional $\tilde\nu$; data density $P$, model $Q$ (score matching, Gretton); noise $\xi$, step $\varepsilon$; linear map $M$ in Prop 5.3; task matrix $\Gamma$ with projection $\Pi=\Gamma\Gamma^+$; A-GEM gradients $u$ (task), $v$ (SSL); predictor $\hat y$ in Prop 6.4.
 - RandBit counts ($N=256$, $D=128$, $K=510$): whitening needs $2^b-1\ge128$, so $b=8$; instance discrimination needs $2^b\ge N$, so $b=8$; $K2^{-b}\approx2$ at $b=8$; VICReg's invariance and variance terms (weights 25, 25) hold with 16 codes. SIGReg below the untrained encoder at $b=6$ is left as a highlighted open point.
 
 ## Next steps for the author
@@ -113,5 +126,5 @@ Chapter 4 renumbering after the new theory papers (commit 454901b → next): 4.7
 - Fill highlighted claims after reading Tian 2022, Garrido 2023 duality conditions, Simon et al. 2023, Tan et al. 2024, Wang et al. 2022.
 - RandBit: three seeds near the thresholds, BYOL as the siamese row, guidance at the threshold, reconstruction control, sample-size knob, dimension and batch knobs for the counts of 7.2; MCL and adversarial views as the first remedies to try.
 - Read in full the abstract-level papers of 8.1 before removing their highlight.
-- Check whether task directions of trained encoders are nearly orthogonal (8.3), which decides whether $G_T$ composes as a sum.
+- Check whether task directions of trained encoders are nearly orthogonal (8.3), which decides whether $\Gamma$ composes as a sum.
 - Prove or drop Conjecture 4.18 with the anchor-drift experiment of 10.3.

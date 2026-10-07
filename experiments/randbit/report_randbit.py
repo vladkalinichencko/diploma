@@ -1,5 +1,5 @@
 """Figure and table from logs/runs.jsonl: class accuracy and bit decodability against the number of shared bits,
-and what 100 labels during pretraining change at K = 16."""
+and what 100 labels during pretraining change at b = 16."""
 
 import json
 from pathlib import Path
@@ -29,8 +29,8 @@ for loss in ["infonce", "vicreg", "sigreg"]:
     right.plot(*curve(loss, 15, "bit_accuracy"), "o-", color=COLORS[loss], label=loss)
 left.plot(*curve("infonce", 0, "class_accuracy"), "s--", color=COLORS["init"], label="random init")
 left.axhline(0.1, color="black", lw=0.6, ls=":")
-left.set(xlabel="shared random bits K", ylabel="STL-10 linear accuracy (test)", title="Image content in h")
-right.set(xlabel="shared random bits K", ylabel="bit sign accuracy from h (test)", title="Shortcut in h", ylim=(0.45, 1.02))
+left.set(xlabel="shared random bits b", ylabel="STL-10 linear accuracy (test)", title="Image content in h")
+right.set(xlabel="shared random bits b", ylabel="bit sign accuracy from h (test)", title="Shortcut in h", ylim=(0.45, 1.02))
 left.legend(frameon=False)
 
 conditions = [("no labels", "none", 0, "fixed"), ("joint", "joint", 100, "fixed"), ("A-GEM", "agem", 100, "fixed"), ("joint, fresh bits", "joint", 100, "fresh")]
@@ -40,7 +40,7 @@ for i, (name, guide, labels, label_bits) in enumerate(conditions):
     bars.bar([j + 0.2 * (i - 1.5) for j in range(len(losses))], heights, width=0.2, label=name)
 bars.axhline(0.1, color="black", lw=0.6, ls=":")
 bars.set_xticks(range(len(losses)), ["infonce", "vicreg", "sigreg", "labels only"])
-bars.set(ylabel="STL-10 linear accuracy (test)", title="K = 16, 100 labels during pretraining")
+bars.set(ylabel="STL-10 linear accuracy (test)", title="b = 16, 100 labels during pretraining")
 bars.legend(frameon=False, fontsize=8)
 fig.tight_layout()
 Path("reports").mkdir(exist_ok=True)
