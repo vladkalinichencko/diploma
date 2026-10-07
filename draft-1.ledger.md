@@ -114,6 +114,8 @@ Target: `draft-1.md`, whole file.
 - C30 (user: "а всем изображениям добавь подписи"): every figure has a visible caption line under the image; the alt text alone may not render.
 - C31 (user: "как ты вообще определяешь эти частоты ... на уровне графа датасета или батча, или на уровне самого изображения?"): bad: "the weak cuts of this graph follow low frequencies, not objects". fix: every spectrum, frequency or eigenvector names its object (Fourier modes of one image, principal components of the dataset covariance, the graph $G$ on the dataset, the matrix of one batch), and a link between two of them gets its reason (stationary image statistics make principal components close to Fourier modes, 9.3).
 - C32 (user: "Все мои идеи ... надо записывать ... в эксперименты, чтобы протестировать"): every idea of the author that the text can test becomes a highlighted row in chapter 10 and, where it belongs to an argument, a highlighted sentence in that chapter. Derivable claims of this work stay highlighted until their proof is in Appendix A. The running list with status is `notes/ideas.md`.
+- C33 (user: "не знаю ничего про deepcluster. ты это как-то в диплом пишешь, или как? одно упоминание мне ничего не объяснит"): bad: "DeepCluster (Caron et al. 2018) relies on this." fix: a cited work gets what it did, the number that matters here and why the argument needs it at this point, or it is not cited there.
+- C34 (user: "ты сравниваешь детерминированный knn и выученную модель"): a comparison sets like against like (a learned encoder against a learned encoder); a deterministic baseline enters only as the predicted ceiling or floor of a learned model, said as such.
 
 ## Section map from the previous structure
 
@@ -148,3 +150,5 @@ Chapter 4 renumbering after the new theory papers (commit 454901b → next): 4.7
 - Decide on the references cited nowhere in the text: Ericsson et al. CVPR 2021 and the SPM review, Shwartz-Ziv and LeCun, Bansal, Kaplun and Barak, Korchinski et al., SCOTT, Hinton's transforming autoencoders.
 - The remaining `and-chain?` flags are lists, propositions with several assumptions and captions; the remaining `count-announce` flags refer back to the three families of chapter 0.
 - Prove or drop Conjecture 4.18 with the anchor-drift experiment of 10.3.
+- Name the scheduling paper of the "Chinese authors" (spectral, as in spectral diffusion models) behind the end of 4.5; the candidate in the references is Cao, Wei and Liu (arXiv:2603.10592).
+- Read SIE (Garrido et al. 2023) and EquiMod (Devillers and Lefort 2023) before the paragraph on ways to keep the parameter in 9.3 loses its highlight.
