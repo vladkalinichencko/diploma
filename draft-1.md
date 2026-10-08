@@ -647,9 +647,7 @@ Chapters 2-4 describe one flow and its theory. The methods that implement it arr
 
 ### 5.1. Waves of methods and their families
 
-The first wave (CPC, SimCLR, MoCo, 2018-2020) used explicit negatives. The second (BYOL, SimSiam, DINO, 2020-2021) removed negatives and relied on an asymmetric architecture. The third (Barlow Twins, VICReg, 2021-2022) replaced the asymmetry with statistics of the batch. The fourth (I-JEPA, LeJEPA, SPHERE-JEPA, 2023-2026) moved the attraction to prediction in latent space and the repulsion to a target distribution. Each method sets where $G$ comes from (augmentations, time, masks), what prevents collapse, and what is predicted.
-
-This grouping matches the one of the Cookbook of Self-Supervised Learning (Balestriero et al.). Its deep-metric-learning, self-distillation and canonical-correlation families are the contrastive, siamese and regularizer families of chapter 0. Chapter 9 treats masked image modeling, which the Cookbook also keeps apart. The table groups the methods by what prevents collapse.
+The first wave (CPC, SimCLR, MoCo, 2018-2020) used explicit negatives. The second (BYOL, SimSiam, DINO, 2020-2021) removed negatives and relied on an asymmetric architecture. The third (Barlow Twins, VICReg, 2021-2022) replaced the asymmetry with statistics of the batch. The fourth (I-JEPA, LeJEPA, SPHERE-JEPA, 2023-2026) moved the attraction to prediction in latent space and the repulsion to a target distribution. Each method sets where $G$ comes from (augmentations, time, masks), what prevents collapse, and what is predicted. The table groups the methods by what prevents collapse.
 
 | Family                   | Methods                                                                                                                                   | What prevents collapse                                                                  | Negatives                          |
 | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ---------------------------------- |
@@ -1316,7 +1314,6 @@ The first order vanishes, so the collapsed state is a critical point. Take $u_i=
 - Wang. On Linear Separation Capacity of Self-Supervised Representation Learning. 2024. arXiv:2310.19041
 - Tao, Wang, Zhu, Dong, Song, Huang, Dai. Exploring the Equivalence of Siamese Self-Supervised Learning via A Unified Gradient Framework (UniGrad). CVPR 2022. arXiv:2112.05141
 - Zhang, Wang, Wang. How Mask Matters: Towards Theoretical Understandings of Masked Autoencoders (U-MAE). NeurIPS 2022. arXiv:2210.08344
-- Balestriero, Ibrahim, Sobal, Morcos, Shekhar, Goldstein, Bordes, Bardes, Mialon, Tian, Schwarzschild, Wilson, Geiping, Garrido, Fernandez, Bar, Pirsiavash, LeCun, Goldblum. A Cookbook of Self-Supervised Learning. 2023. arXiv:2304.12210
 - Jacot, Gabriel, Hongler. Neural Tangent Kernel: Convergence and Generalization in Neural Networks. NeurIPS 2018.
 - Roy, Vetterli. The Effective Rank: A Measure of Effective Dimensionality. EUSIPCO 2007.
 - Mei, Montanari, Nguyen. A Mean Field View of the Landscape of Two-Layer Neural Networks. PNAS 2018.
