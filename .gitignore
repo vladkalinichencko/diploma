@@ -3,3 +3,6 @@
 experiments/randbit/cache/
 __pycache__/
 draft-1.audit.md
+.build/.buildSystem_debug
+.gitignore
+.build/CACHEDIR.TAG
