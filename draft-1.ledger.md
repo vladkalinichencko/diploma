@@ -116,6 +116,7 @@ Target: `draft-1.md`, whole file.
 - C32 (user: "Все мои идеи ... надо записывать ... в эксперименты, чтобы протестировать"): every idea of the author that the text can test becomes a highlighted row in chapter 10 and, where it belongs to an argument, a highlighted sentence in that chapter. Derivable claims of this work stay highlighted until their proof is in Appendix A. The running list with status is `notes/ideas.md`.
 - C33 (user: "не знаю ничего про deepcluster. ты это как-то в диплом пишешь, или как? одно упоминание мне ничего не объяснит"): bad: "DeepCluster (Caron et al. 2018) relies on this." fix: a cited work gets what it did, the number that matters here and why the argument needs it at this point, or it is not cited there.
 - C34 (user: "ты сравниваешь детерминированный knn и выученную модель"): a comparison sets like against like (a learned encoder against a learned encoder); a deterministic baseline enters only as the predicted ceiling or floor of a learned model, said as such.
+- C35 (user: "мои мысли пока как hypotheses добавлять, ну или как наш paper contribution"; "связывать параграфы абзацы и выводы формул не забывай"): an idea of the author enters as a highlighted paragraph "*Hypothesis Hn (this work).*" next to the argument it follows from, with a lead sentence that links it to that argument and the chapter 10 row that can refute it; chapter 0 lists all of them.
 
 ## Section map from the previous structure
 
@@ -150,5 +151,6 @@ Chapter 4 renumbering after the new theory papers (commit 454901b → next): 4.7
 - Decide on the references cited nowhere in the text: Ericsson et al. CVPR 2021 and the SPM review, Shwartz-Ziv and LeCun, Bansal, Kaplun and Barak, Korchinski et al., SCOTT, Hinton's transforming autoencoders.
 - The remaining `and-chain?` flags are lists, propositions with several assumptions and captions; the remaining `count-announce` flags refer back to the three families of chapter 0.
 - Prove or drop Conjecture 4.18 with the anchor-drift experiment of 10.3.
-- Name the scheduling paper of the "Chinese authors" (spectral, as in spectral diffusion models) behind the end of 4.5; the candidate in the references is Cao, Wei and Liu (arXiv:2603.10592).
+- The scheduling paper of the "Chinese authors" behind the end of 4.5 is likely "Generative Drifting is Secretly Score Matching: a Spectral and Variational Perspective"; read it with the Zotero collection "SSL bandwidth scheduling" (list in `notes/ideas.md`) and move theorems with their assumptions into the matching sections.
+- Reproduce MCL on RandBit before the SIGReg variant (H5, 10.4).
 - Read SIE (Garrido et al. 2023) and EquiMod (Devillers and Lefort 2023) before the paragraph on ways to keep the parameter in 9.3 loses its highlight.
